@@ -1,0 +1,184 @@
+<?php
+namespace App\Classes;
+use DB;
+use Carbon\Carbon;
+
+class Main {
+
+    public function __construct()
+    {
+        $this->url = 'http://139.99.60.117:8087/casaxcb-rest/';
+    }
+
+    function echo($data) {
+        echo $data;
+    }
+
+    function url($uri, $data)
+    {
+        $data = json_encode($data);
+
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+        CURLOPT_PORT => "8087",
+        CURLOPT_URL => $this->url.$uri,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => $data,
+        CURLOPT_HTTPHEADER => [
+            "Content-Type: application/json"
+        ],
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        return "cURL Error #:" . $err;
+        } else {
+        return json_decode($response);
+        }
+    }
+
+    function createMandatory($data = [])
+    {
+        $mandatory = [
+                "request" => [
+                    "cifValidationDto" => [
+                    "idCif" => "",
+                    "companyCode" => "10002",
+                    "productCode" => "Merchant",
+                    "name" => $data['name'],
+                    "fullName" => $data['fullname'],
+                    "gender" => $data['gender'] ?? 0,
+                    "birthPlace" => $data['tempat_lahir'],
+                    "birthDate" => $data['tanggal_lahir'],
+                    "identityNumber" => "",
+                    "identityType" => "",
+                    "motherMaidenName" => "",
+                    "callName" => $data['name'],
+                    "phone" => $data['telp'],
+                    "phoneType" => "1",
+                    "email" => $data['email'],
+                    "maritalStatus" => "Married",
+
+                    "street1" => "",
+                    "street2" => "",
+                    "city" => "",
+                    "province" => "",
+                    "country" => "",
+                    "postalCode" => "",
+                    "lastEducation" => "1",
+                    "taxFlag" => "0",
+                    "isResidence" => "1",
+                    "idValidDate" => "2099-01-01",
+                    "printedName" => $data['fullname'],
+                    "representativeName" => $data['fullname'],
+                    "accountNumber" => "",
+                    "purposeOfAccountOpening" => "Savings",
+                    "addressType" => "1"
+                ],
+                "currency" => "IDR"
+            ]
+        ];
+        $create = $this->url('account-opening/create-account-cif-mandatory', $mandatory);
+        $hx = $create->response;
+        $datax = [
+            'nisn' => $data->nisn ?? 0,
+            'cif_number' => $hx->cifNumber,
+            'account_number' => $hx->accountNumber,
+        ];
+        $user = DB::table('user_account')->insert($datax);
+        return 'Berhasil Membuat Akun';
+    }
+
+    function updateSaldo($id, $nominal)
+    {
+        $update = DB::table('users')->where('id',$id)->update([
+            'saldo' => $nominal
+        ]);
+
+        return $update;
+    }
+
+    function TopUp($data = [], $is_admin = 0)
+    {
+        $user = DB::select('select s.*, ua.account_number from users s join user_account ua
+        on ua.nisn = s.nisn
+        where s.id = ?',[$data['user_id']] )[0] ?? null;
+
+        $mandatory = [
+            "request" => [
+                "overbooking" => [
+                    "accountFrom" => "",
+                    "currencyFrom" => "IDR",
+                    "accountTo" => $user->account_number, //Account Number
+                    "currencyTo" => "IDR",
+                    "amount" => $data['nominal'],
+                    "description" => $data['keterangan'] ?? 'Top Up',
+                    "trxCode" => "",
+                    "username" => "",
+                    "dataSource" => ""
+                ]
+            ]
+        ];
+        try {
+            $topups = $this->url('overbooking/trx-overbook-batch', $mandatory);
+            $transaction = [
+                'nisn' => $user->nisn,
+                'jumlah_bayar' => $data['nominal'],
+                'tipe_bayar' => $is_admin, // admin = 1 // self = 0
+                'tipe' => ($is_admin == 1)?'success':'waiting',
+                'debit' => $data['nominal'],
+                'ext' => json_encode($mandatory),
+                'created_at' => Carbon::now()
+            ];
+            $ts = DB::table('transactions')->insertGetId($transaction);
+            if($is_admin == 1){
+                $current = $user->saldo;
+                $new = $current + intval($data['nominal']);
+                $tes = $this->updateSaldo($user->id, $new);
+            }
+        } catch (\Exception $e) {
+           return $e;
+
+        }
+    }
+
+    function tagihan($id)
+    {
+        $tagihan = DB::select("select u.fullname, u.kelas, t.*, tt.tipe_tagihan from tagihans t
+        left join users u on u.nisn = t.nisn
+        left join tipe_tagihan tt on tt.id = t.tipe_tagihan
+        where t.nisn = ?", [$id]);
+
+        return $tagihan;
+    }
+
+    function riwayat($nisn)
+    {
+        $transaction = DB::select("select
+        s.fullname, s.kelas, s.nisn, t.nisn, s.saldo, t.debit, t.credit, t.created_at as tanggal, t.tipe as status, t.tipe_bayar
+        from transactions t
+        left join users s on s.nisn = t.nisn
+        where s.nisn = ?", [$nisn]);
+        return $transaction;
+    }
+
+    function Detailtagihan($id)
+    {
+        $tagihan = DB::select("select u.fullname, u.kelas, t.*, tt.tipe_tagihan from tagihans t
+        left join users u on u.nisn = t.nisn
+        left join tipe_tagihan tt on tt.id = t.tipe_tagihan
+        where t.id = ?", [$id]);
+
+        return $tagihan[0];
+    }
+
+}
