@@ -111,7 +111,7 @@ class Main {
     {
         $user = DB::select('select s.*, ua.account_number from users s join user_account ua
         on ua.nisn = s.nisn
-        where s.id = ?',[$data['user_id']] )[0] ?? null;
+        where s.id = ? or s.nisn = ?',[$data['user_id'] ?? '', $data['nisn'] ?? ''] )[0] ?? null;
 
         $mandatory = [
             "request" => [
@@ -129,6 +129,7 @@ class Main {
             ]
         ];
         try {
+            if($is_admin == 1){
             $topups = $this->url('overbooking/trx-overbook-batch', $mandatory);
             $transaction = [
                 'nisn' => $user->nisn,
@@ -137,14 +138,15 @@ class Main {
                 'tipe' => ($is_admin == 1)?'success':'waiting',
                 'debit' => $data['nominal'],
                 'ext' => json_encode($mandatory),
+                'tagihan_id' => $data['tagihan_id'] ?? null,
+                'bank_id' => $data['bank_id'] ?? 0,
                 'created_at' => Carbon::now()
             ];
             $ts = DB::table('transactions')->insertGetId($transaction);
-            if($is_admin == 1){
+        }
                 $current = $user->saldo;
                 $new = $current + intval($data['nominal']);
                 $tes = $this->updateSaldo($user->id, $new);
-            }
         } catch (\Exception $e) {
            return $e;
 
@@ -164,8 +166,11 @@ class Main {
     function riwayat($nisn)
     {
         $transaction = DB::select("select
-        s.fullname, s.kelas, s.nisn, t.nisn, s.saldo, t.debit, t.credit, t.created_at as tanggal, t.tipe as status, t.tipe_bayar
+        s.fullname, s.kelas, s.nisn, t.nisn, s.saldo, t.debit, t.tagihan_id, t.tipe, t.credit,
+        t.created_at as tanggal, t.tipe as status, t.tipe_bayar, t2.tipe_tagihan , t2.keterangan
         from transactions t
+        left join tagihans t2 on t2.id = t.tagihan_id
+        left join tipe_tagihan tt on tt.id = t2.tipe_tagihan
         left join users s on s.nisn = t.nisn
         where s.nisn = ?", [$nisn]);
         return $transaction;
@@ -181,4 +186,66 @@ class Main {
         return $tagihan[0];
     }
 
+    function transactions($data = [], $user)
+    {
+        $transaction = [
+            'nisn' => $user,
+            'jumlah_bayar' => $data['jumlah'],
+            'tipe_bayar' => 0, // admin = 1 // self = 0
+            'tipe' => 'waiting',
+            'credit' => $data['jumlah'],
+            'tagihan_id' => $data['id'] ?? null,
+            'bank_id' => $data['bank_id'] ?? 0,
+            'created_at' => Carbon::now()
+        ];
+        DB::table('transactions')->insertGetId($transaction);
+
+        return $transaction;
+    }
+
+    function updateTagihan($id)
+    {
+        DB::table('tagihans')->where('id', $id)->update([
+            'status' => 1
+        ]);
+    }
+
+    function Debit($data = [], $user)
+    {
+        $transaction = [
+            'nisn' => $user,
+            'jumlah_bayar' => $data['jumlah'],
+            'tipe_bayar' => 0, // admin = 1 // self = 0
+            'tipe' => 'waiting',
+            'debit' => $data['jumlah'],
+            'tagihan_id' => $data['id'] ?? null,
+            'bank_id' => $data['bank'] ?? 0,
+            'created_at' => Carbon::now()
+        ];
+        DB::table('transactions')->insertGetId($transaction);
+
+        return $transaction;
+    }
+
+    function riwayatAdmin()
+    {
+        $transaction = DB::select("select
+        t.id,
+        s.fullname, s.kelas, s.nisn, t.nisn, s.saldo, t.debit, t.tagihan_id, t.tipe, t.credit,
+        t.created_at as tanggal, t.tipe as status, t.tipe_bayar, t2.tipe_tagihan , t2.keterangan
+        from transactions t
+        left join tagihans t2 on t2.id = t.tagihan_id
+        left join tipe_tagihan tt on tt.id = t2.tipe_tagihan
+        left join users s on s.nisn = t.nisn
+        where t.tipe = 'waiting'");
+
+        return $transaction;
+    }
+
+    function updateStatusTransaction($id)
+    {
+        DB::table('transactions')->where('id', $id)->update([
+            'tipe' => 'success'
+        ]);
+    }
 }

@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->float('saldo')->default(0);
             $table->string('thumbnail');
             $table->integer('status')->default(0);
+            $table->integer('verified')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

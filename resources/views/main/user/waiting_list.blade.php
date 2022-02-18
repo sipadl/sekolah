@@ -41,8 +41,8 @@
                 <td>{{$ad->tipe}}</td>
                 <td>{{$ad->keterangan ?? 'Top Up Saldo'}}</td>
                 <td>
-                    <span><a href="">Terima</a></span>
-                    <span><a href="" class="badge badge-danger">Tolak</a></span>
+                    <span><a href="{{ route('tagihan.accept', [$ad->id]) }}" class="btn btn-info btn-sm text-light">Terima</a></span>
+                    <span><a href="{{ route('tagihan.deny', [$ad->id]) }}" class="btn btn-danger btn-sm">Tolak</a></span>
                 </td>
             </tr>
             @endforeach

@@ -12,7 +12,7 @@
                     Nama Lengkap
                 </label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" name="full_name" id="full_name" value="{{$user->full_name ?? ''}}" placeholder="Nama Lengkap">
+                    <input type="text" class="form-control" name="full_name" id="full_name" value="{{$user->fullname ?? ''}}" placeholder="Nama Lengkap">
                 </div>
             </div>
             <div class="form-group row mb-2">

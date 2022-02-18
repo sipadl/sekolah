@@ -50,17 +50,23 @@ Route::prefix('user')->group(function () {
         Route::post('add', [App\Http\Controllers\HomeController::class, 'tagihanAddPost'])->name('tagihan.add.post');
         Route::get('topup', [App\Http\Controllers\HomeController::class, 'Saldos'])->name('tagihan.topup');
         Route::get('history', [App\Http\Controllers\HomeController::class, 'history'])->name('tagihan.history');
+        Route::get('waiting', [App\Http\Controllers\HomeController::class, 'waiting'])->name('tagihan.waiting');
+        Route::get('accept/{id}', [App\Http\Controllers\HomeController::class, 'accept'])->name('tagihan.accept');
+        Route::get('deny/{id}', [App\Http\Controllers\HomeController::class, 'deny'])->name('tagihan.deny');
         Route::prefix('saldo')->group(function () {
             Route::get('', [App\Http\Controllers\HomeController::class, 'listSaldo'])->name('saldolist');
             Route::post('topup', [App\Http\Controllers\HomeController::class, 'SaldosPost'])->name('topup.post');
         });
     });
 });
-    Route::prefix('siswa')->group(function () {
-
-        // User
-        Route::get('', [App\Http\Controllers\UserController::class, 'tagihan'])->name('tagihan.user');
-        Route::get('history', [App\Http\Controllers\UserController::class, 'history'])->name('history.user');
-        Route::get('topup', [App\Http\Controllers\UserController::class, 'topup'])->name('topup.user');
-        Route::get('/tagihan/bayar/{id}', [App\Http\Controllers\UserController::class, 'bayar'])->name('bayar.user');
-    });
+Route::prefix('siswa')->group(function () {
+    // User
+    Route::get('me', [App\Http\Controllers\UserController::class, 'MyInfo'])->name('me');
+    Route::get('pengaturan', [App\Http\Controllers\UserController::class, 'settings'])->name('pengaturan');
+    Route::get('', [App\Http\Controllers\UserController::class, 'tagihan'])->name('tagihan.user');
+    Route::get('history', [App\Http\Controllers\UserController::class, 'history'])->name('history.user');
+    Route::get('topup', [App\Http\Controllers\UserController::class, 'topup'])->name('topup.user');
+    Route::post('topup', [App\Http\Controllers\UserController::class, 'topuppost'])->name('topup.user.post');
+    Route::get('/tagihan/bayar/{id}', [App\Http\Controllers\UserController::class, 'bayar'])->name('bayar.user');
+    Route::post('/tagihan/bayar/{id}', [App\Http\Controllers\UserController::class, 'bayarPost'])->name('bayar.user.post');
+});

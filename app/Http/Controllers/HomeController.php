@@ -245,4 +245,29 @@ class HomeController extends Controller
         $main = $this->main->updateSaldo(9,1000);
         return $main;
     }
+
+    public function waiting()
+    {
+        $tagihan = $this->main->riwayatAdmin();
+        return view('main.user.waiting_list', compact('tagihan'));
+    }
+
+    public function accept($id)
+    {
+        $user = Auth::user();
+        $tagihan = DB::table('transactions')->where('id', $id)->first();
+        $data = [
+            'nisn' => $tagihan->nisn,
+            'nominal' => $tagihan->jumlah_bayar,
+        ];
+        $topup = $this->main->TopUp($data, 1);
+        $this->main->updateStatusTransaction($id);
+        return redirect()->back();
+    }
+    public function deny($id)
+    {
+        $cancel = DB::table('transactions')->where('id', $id)->update([
+            'status' => 'deny'
+        ]);
+    }
 }

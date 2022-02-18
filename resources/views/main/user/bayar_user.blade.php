@@ -4,8 +4,10 @@
     <div class="col-6 card p-4">
         <h4 class="">Detail Pembayaran Siswa</h4>
         <br>
-        <div class="form-group row mb-2">
-            <label for="" class="label-form-col col-4 my-2">Nama Lengkap</label>
+        <form action="{{ route('bayar.user.post', [$tagihan->id]) }}" method="POST">
+            @csrf
+            <div class="form-group row mb-2">
+                <label for="" class="label-form-col col-4 my-2">Nama Lengkap</label>
             <div class="col-8">
                 <input type="text" readonly value="{{$tagihan->fullname}}" class="form-control">
             </div>
@@ -42,12 +44,13 @@
         </div>
         <div class="text-center">
             @if($tagihan->status != 1)
-            <button class="btn btn-primary">Bayar Langsung</button>
-            <button class="btn btn-danger">Bayar Dengan Cicil</button>
+            <button class="btn btn-primary" type="submit">Bayar Langsung</button>
+            <a href="#" class="btn btn-danger">Bayar Dengan Cicil</a>
             @else
             <button class="btn btn-secondary" disabled>Sudah Dibayar</button>
             @endif
         </div>
+    </form>
     </div>
 </div>
 

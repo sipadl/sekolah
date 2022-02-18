@@ -32,7 +32,7 @@
                           <li><a class="dropdown-item" href="{{route('tagihan.history')}}">Riwayat Tagihan</a></li>
                           <li><a class="dropdown-item" href="{{route('tagihan.topup')}}">Top up Siswa</a></li>
                           <li><a class="dropdown-item" href="{{route('saldolist') }}">Saldo</a></li>
-                          <li><a class="dropdown-item" href="#">Waiting List</a></li>
+                          <li><a class="dropdown-item" href="{{ route('tagihan.waiting') }}">Waiting List</a></li>
                         </ul>
                       </li>
                     </ul>
@@ -58,24 +58,8 @@
             <div class="nav navbar-nav ">
                 <a class="nav-item nav-link {{ Request::segment(2) == null ?'active' : ''}}" href="{{route('user')}}">Dasboard</a>
                 <a class="nav-item nav-link {{ Request::segment(2) == 'tagihan' ?'active' : ''}}" href="{{route('tagihan.user')}}">Tagihan</a>
-                <a class="nav-item nav-link {{ Request::segment(2) == 'history' ?'active' : ''}}" href="{{route('history.user')}}">Riwayat</a>
                 <a class="nav-item nav-link {{ Request::segment(2) == 'topup' ?'active' : ''}}" href="{{route('topup.user')}}">Top Up</a>
-                {{-- <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-                    <ul class="navbar-nav">
-                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ Request::segment(2) == 'tagihan' ?'active' : ''}}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Tagihan
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                          <li><a class="dropdown-item" href="{{route('tagihan')}}">Jenis Tagihan</a></li>
-                          <li><a class="dropdown-item" href="{{route('tagihan.history')}}">Riwayat Tagihan</a></li>
-                          <li><a class="dropdown-item" href="{{route('tagihan.topup')}}">Top up Siswa</a></li>
-                          <li><a class="dropdown-item" href="{{route('saldolist') }}">Saldo</a></li>
-                          <li><a class="dropdown-item" href="#">Waiting List</a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div> --}}
+                <a class="nav-item nav-link {{ Request::segment(2) == 'history' ?'active' : ''}}" href="{{route('history.user')}}">Riwayat</a>
                   <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
                     <ul class="navbar-nav">
                       <li class="nav-item dropdown">
@@ -83,7 +67,8 @@
                           Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                          <li><a class="dropdown-item" href="#">Pengaturan</a></li>
+                          <li><a class="dropdown-item" href="{{route('me') }}">Informasi Pribadi</a></li>
+                          <li><a class="dropdown-item" href="{{route('pengaturan') }}">Pengaturan</a></li>
                           <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
                         </ul>
                       </li>
