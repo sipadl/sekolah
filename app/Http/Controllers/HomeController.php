@@ -44,7 +44,24 @@ class HomeController extends Controller
     public function getDetailAdmin($id)
     {
         $user = DB::table('users')->where('id', $id)->first();
-        return view('main.user.detail_admin', compact('user'));
+        return view('main.user.update.update_admin', compact('user'));
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        if($request->file('thumbnail'))
+        {
+            $file = $request->file('thumbnail');
+            $fileName = $file->getClientOriginalName();
+            $request->file('thumbnail')->move("images/", $fileName);
+            $thumbnail = "images/".$fileName;
+
+            DB::table('users')->where('id', $id)->update([
+                'thumbnail' => $thumbnail,
+            ]);
+        }
+        $user = DB::table('users')->where('id',$id)->update($request->all());
+        return redirect()->back()->with('success', 'Data berhasil diubah');
     }
 
     public function delete($id)
@@ -151,7 +168,7 @@ class HomeController extends Controller
     public function getDetailSiswa($id)
     {
         $user = DB::table('users')->where('id', $id)->first();
-        return view('main.user.add_siswa', compact('user'));
+        return view('main.user.update.siswa', compact('user'));
     }
 
     public function siswaDelete($id)
@@ -242,7 +259,7 @@ class HomeController extends Controller
 
     public function api()
     {
-        $main = $this->main->updateSaldo(9,1000);
+        $main = $this->main->sendOTP(9);
         return $main;
     }
 

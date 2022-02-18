@@ -2,6 +2,8 @@
 namespace App\Classes;
 use DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
 
 class Main {
 
@@ -247,5 +249,18 @@ class Main {
         DB::table('transactions')->where('id', $id)->update([
             'tipe' => 'success'
         ]);
+    }
+
+
+    function sendOTP($user_id)
+    {
+        $user = DB::table('users')->where('id', $user_id)->first();
+        $email = $user->email;
+        $otp = $user->otp;
+            $data = [
+                'title' => 'Code OTP Anda adalah '.$otp,
+                'url' => env('BASE_URL')
+            ];
+        Mail::to($email)->send(new SendMail($data));
     }
 }

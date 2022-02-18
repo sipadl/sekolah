@@ -107,4 +107,20 @@ class UserController extends Controller
         return view('main.user.pengaturan_user', compact('data'));
     }
 
+    public function verifikasi()
+    {
+        $user = Auth::user();
+        $this->main->sendOTP($user->id);
+    }
+
+    public function confirm(Request $request)
+    {
+        $user = Auth::user();
+        if($user->OTP == $request->otp)
+        {
+            return 'masuk';
+        }
+        return 'gagal';
+    }
+
 }

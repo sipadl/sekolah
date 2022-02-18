@@ -2,6 +2,7 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-6 card p-4">
+        <div class="message"></div>
         <div class="d-flex justify-content-between">
             <h4 class="">Ubah Info Pribadi</h4>
             {{-- <a href="{{ route('user') }}" class="btn btn-info text-light">Kembali</a> --}}
@@ -32,13 +33,16 @@
                     <input type="email" name="email" value="{{$data->email}}" class="form-control">
                 </div>
                 <div class="col-3 my-1 text-end">
-                    <button class="btn btn-info btn-sm text-light">Send OTP</button>
+                    <button onclick="sendOTP();" class="btn btn-info btn-sm text-light">Send OTP</button>
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-3 my-2">OTP</label>
-                <div class="col-9">
-                    <input type="text" name="otp" placeholder="...." class="form-control">
+                <div class="col-6">
+                    <input type="text" id="otp" name="otp" placeholder="...." class="form-control">
+                </div>
+                <div class="col-3 my-1 text-end">
+                    <button onclick="confirmOTP()" class="btn btn-info btn-sm text-light">Konfirmasi</button>
                 </div>
             </div>
             <div class="form-group row mb-2">
@@ -59,5 +63,39 @@
             </div>
     </div>
 </div>
+@section('script')
+<script>
+    function sendOTP()
+    {
+        $.get("{{route('verifikasi.user') }}", {},
+            function (data, textStatus, jqXHR) {
+                $('.message').append(`
+                <div class="alert alert-success" role="alert">
+                    <strong id="msg">Berhasil Mengirim Email</strong>
+                </div>`)
+            },
+        );
+    }
 
-@stop
+    function confirmOTP()
+    {
+        $.post("{{route('confirm.user')}}", {otp: $('#otp').val()},
+            function (data, textStatus, jqXHR) {
+                $('.message').html('')
+                if(data == 'masuk'){
+                $('.message').append(`
+                <div class="alert alert-success" role="alert">
+                    <strong id="msg">Berhasil Verifikasi Akun</strong>
+                </div>`)
+                }else{
+                $('.message').append(`
+                <div class="alert alert-danger" role="alert">
+                    <strong id="msg">Cek Kembali OTP Anda</strong>
+                </div>`)
+                }
+            },
+        );
+    }
+</script>
+@endsection
+@endsection

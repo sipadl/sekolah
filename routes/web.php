@@ -25,7 +25,7 @@ Route::get('/register', [App\Http\Controllers\AuthController::class, 'register']
 Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('api', [App\Http\Controllers\HomeController::class, 'api'])->name('api');
+
 
 Route::prefix('user')->group(function () {
     Route::get('', [App\Http\Controllers\HomeController::class, 'index'])->name('user');
@@ -33,6 +33,7 @@ Route::prefix('user')->group(function () {
         Route::get('', [App\Http\Controllers\HomeController::class, 'admin'])->name('admin');
         Route::get('add', [App\Http\Controllers\HomeController::class, 'addAdmin'])->name('admin.add');
         Route::post('add', [App\Http\Controllers\HomeController::class, 'postAddAdmin'])->name('admin.add.post');
+        Route::post('ubah/{id}', [App\Http\Controllers\HomeController::class, 'updateUser'])->name('admin.update.post');
         Route::get('ubah/{id}', [App\Http\Controllers\HomeController::class, 'getDetailAdmin'])->name('admin.edit');
         Route::get('hapus/{id}', [App\Http\Controllers\HomeController::class, 'delete'])->name('admin.delete');
     });
@@ -40,8 +41,8 @@ Route::prefix('user')->group(function () {
         Route::get('', [App\Http\Controllers\HomeController::class, 'siswa'])->name('siswa');
         Route::get('add', [App\Http\Controllers\HomeController::class, 'siswaAdd'])->name('siswa.add');
         Route::post('add-post', [App\Http\Controllers\HomeController::class, 'siswaAddPost'])->name('siswa.add.post');
-        Route::get('ubah/{id}', [App\Http\Controllers\HomeController::class, 'siswa'])->name('siswa.delete');
-        Route::get('hapus/{id}', [App\Http\Controllers\HomeController::class, 'getDetailSiswa'])->name('siswa.edit');
+        Route::get('ubah/{id}', [App\Http\Controllers\HomeController::class, 'getDetailSiswa'])->name('siswa.edit');
+        Route::get('hapus/{id}', [App\Http\Controllers\HomeController::class, 'siswaDelete'])->name('siswa.delete');
     });
     Route::prefix('tagihan')->group(function () {
         // Admin
@@ -69,4 +70,6 @@ Route::prefix('siswa')->group(function () {
     Route::post('topup', [App\Http\Controllers\UserController::class, 'topuppost'])->name('topup.user.post');
     Route::get('/tagihan/bayar/{id}', [App\Http\Controllers\UserController::class, 'bayar'])->name('bayar.user');
     Route::post('/tagihan/bayar/{id}', [App\Http\Controllers\UserController::class, 'bayarPost'])->name('bayar.user.post');
+    Route::get('/verift/otp', [App\Http\Controllers\UserController::class, 'verifikasi'])->name('verifikasi.user');
+    Route::post('/confirm/otp', [App\Http\Controllers\UserController::class, 'confirm'])->name('confirm.user');
 });
