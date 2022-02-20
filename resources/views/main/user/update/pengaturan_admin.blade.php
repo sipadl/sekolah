@@ -7,18 +7,17 @@
             <h4 class="">Ubah Info Pribadi</h4>
         </div>
         <br>
-        <form action="{{route('updateUser', [$data->id]) }}" method="post">
             @csrf
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-3 my-2">Nama Lengkap</label>
                 <div class="col-9">
-                    <input type="text" name="fullname" value="{{$data->fullname}}" class="form-control">
+                    <input type="text" value="{{$data->fullname}}" class="form-control">
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-3 my-2">NIS</label>
                 <div class="col-9">
-                    <input type="text" name="nisn" readonly value="{{$data->nisn}}" class="form-control">
+                    <input type="text" readonly value="{{$data->nisn}}" class="form-control">
                 </div>
             </div>
             <div class="form-group row mb-2">
@@ -28,31 +27,16 @@
                 </div>
             </div>
             <div class="form-group row mb-2">
-                <label for="" class="label-form-col col-3 my-2">Email</label>
-                <div class="{{ $data->verified == 0 ? 'col-6' : 'col-9' }}">
+                <label for="" class="label-form-col {{ $data->verified == 0 ? 'col-3' : 'col-6' }} my-2">Email</label>
+                <div class="col-6">
                     <input type="email" name="email" value="{{$data->email}}" class="form-control">
                 </div>
-                @if($data->verified != 1 )
-                <div class="col-3 my-1 text-end">
-                    <button onclick="sendOTP();" class="btn btn-info btn-sm text-light">Send OTP</button>
-                </div>
-                @endif
             </div>
-            @if($data->verified != 1 )
-            <div class="form-group row mb-2">
-                <label for="" class="label-form-col col-3 my-2">OTP</label>
-                <div class="col-6">
-                    <input type="text" id="otp" name="otp" placeholder="...." class="form-control">
-                </div>
-                <div class="col-3 my-1 text-end">
-                    <button onclick="confirmOTP()" class="btn btn-info btn-sm text-light">Konfirmasi</button>
-                </div>
-            </div>
-            @endif
+
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-3 my-2">No. Telp</label>
                 <div class="col-9">
-                    <input type="text" name="telp" value="{{$data->telp ?? 'Belum Menambahkan No. Handphone'}}" class="form-control">
+                    <input type="text" name="telp" value="{{$data->telp ?? ''}}" placeholder="Belum Menambahkan No. Telp" class="form-control">
                 </div>
             </div>
             <div class="form-group row mb-2">
@@ -62,10 +46,9 @@
                 </div>
             </div>
             <div class="text-end mt-4 {{ $data->verified != 1 ?? 'd-none' }}" id="submit-btn">
-                <button class="btn btn-info text-light" type="submit">Simpan</button>
-                <a href="{{ route('me') }}" class="btn btn-danger text-light">Batal</a>
+                <button class="btn btn-info text-light">Simpan</button>
+                <button class="btn btn-danger text-light">Batal</button>
             </div>
-        </form>
     </div>
 </div>
 @section('script')

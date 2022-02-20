@@ -107,6 +107,13 @@ class UserController extends Controller
         return view('main.user.pengaturan_user', compact('data'));
     }
 
+    public function updateUser(Request $request, $id)
+    {
+        $user = Auth::user();
+        DB::table('users')->where('id', $user->id)->update($request->except('_token'));
+        return redirect()->back()->withInput();
+    }
+
     public function verifikasi()
     {
         $user = Auth::user();
@@ -116,11 +123,15 @@ class UserController extends Controller
     public function confirm(Request $request)
     {
         $user = Auth::user();
-        if($user->OTP == $request->otp)
+        if($user->otp == $request->otp)
         {
-            return 'masuk';
+            DB::table('users')->where('id', $user->id)->update([
+                'verified' => 1,
+                'otp' => mt_rand(100000, 999999)
+            ]);
+            return response()->json('ok');
         }
-        return 'gagal';
+        return response()->json('fail');
     }
 
 }

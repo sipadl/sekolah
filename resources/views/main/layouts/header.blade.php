@@ -44,7 +44,7 @@
                           Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                          <li><a class="dropdown-item" href="#">Pengaturan</a></li>
+                          <li><a class="dropdown-item" href="{{route('settingsAdmin') }}">Pengaturan</a></li>
                           <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
                         </ul>
                       </li>

@@ -22,7 +22,6 @@
                 <th>Tanggal</th>
                 <th>Keterangan</th>
                 <th>Status</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody class="text-center">
@@ -40,10 +39,7 @@
                 <td>{{date('d/m/Y' ,strtotime($ad->tanggal))}}</td>
                 <td>{{$ad->tipe}}</td>
                 <td>{{$ad->keterangan ?? 'Top Up Saldo'}}</td>
-                <td>
-                    <span><a href="">Terima</a></span>
-                    <span><a href="" class="badge badge-danger">Tolak</a></span>
-                </td>
+
             </tr>
             @endforeach
         </tbody>

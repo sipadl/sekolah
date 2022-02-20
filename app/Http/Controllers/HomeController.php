@@ -9,6 +9,9 @@ use DB;
 use Validator;
 use Hash;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UsersImport;
+use App\Exports\UsersExport;
 
 class HomeController extends Controller
 {
@@ -286,5 +289,34 @@ class HomeController extends Controller
         $cancel = DB::table('transactions')->where('id', $id)->update([
             'status' => 'deny'
         ]);
+    }
+
+    public function settingsAdmin()
+    {
+        $data = Auth::user();
+        return view('main.user.update.pengaturan_admin', compact('data'));
+    }
+
+    public function fileImportExport()
+    {
+       return view('main.user.file-import');
+    }
+
+    /**
+    */
+    public function fileImport(Request $request)
+    {
+        $file = $request->file('file')->move(public_path('file'),
+        $getname = $request->file('file')->getClientOriginalName());
+        $status = Excel::import(new UsersImport, public_path('file/'.$getname));
+        dd($status);
+        return back();
+    }
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileExport()
+    {
+        return Excel::download(new UsersExport, 'export-user.xlsx');
     }
 }

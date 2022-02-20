@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +32,11 @@ Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->n
 Route::prefix('user')->group(function () {
     Route::get('', [App\Http\Controllers\HomeController::class, 'index'])->name('user');
     Route::prefix('admin')->group(function () {
+        Route::get('file-import-export', [HomeController::class, 'fileImportExport'])->name('fileImportExport');
+        Route::post('file-import', [HomeController::class, 'fileImport'])->name('file-import');
+        Route::get('file-export', [HomeController::class, 'fileExport'])->name('file-export');
         Route::get('', [App\Http\Controllers\HomeController::class, 'admin'])->name('admin');
+        Route::get('pengaturan', [App\Http\Controllers\HomeController::class, 'settingsAdmin'])->name('settingsAdmin');
         Route::get('add', [App\Http\Controllers\HomeController::class, 'addAdmin'])->name('admin.add');
         Route::post('add', [App\Http\Controllers\HomeController::class, 'postAddAdmin'])->name('admin.add.post');
         Route::post('ubah/{id}', [App\Http\Controllers\HomeController::class, 'updateUser'])->name('admin.update.post');
@@ -64,6 +70,7 @@ Route::prefix('siswa')->group(function () {
     // User
     Route::get('me', [App\Http\Controllers\UserController::class, 'MyInfo'])->name('me');
     Route::get('pengaturan', [App\Http\Controllers\UserController::class, 'settings'])->name('pengaturan');
+    Route::post('pengaturan/{id}', [App\Http\Controllers\UserController::class, 'updateUser'])->name('updateUser');
     Route::get('', [App\Http\Controllers\UserController::class, 'tagihan'])->name('tagihan.user');
     Route::get('history', [App\Http\Controllers\UserController::class, 'history'])->name('history.user');
     Route::get('topup', [App\Http\Controllers\UserController::class, 'topup'])->name('topup.user');
@@ -73,3 +80,6 @@ Route::prefix('siswa')->group(function () {
     Route::get('/verift/otp', [App\Http\Controllers\UserController::class, 'verifikasi'])->name('verifikasi.user');
     Route::post('/confirm/otp', [App\Http\Controllers\UserController::class, 'confirm'])->name('confirm.user');
 });
+
+
+
