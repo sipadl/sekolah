@@ -27,8 +27,8 @@
                 </div>
             </div>
             <div class="form-group row mb-2">
-                <label for="" class="label-form-col {{ $data->verified == 0 ? 'col-3' : 'col-6' }} my-2">Email</label>
-                <div class="col-6">
+                <label for="" class="label-form-col col-3 my-2">Email</label>
+                <div class="col-9">
                     <input type="email" name="email" value="{{$data->email}}" class="form-control">
                 </div>
             </div>

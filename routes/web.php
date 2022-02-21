@@ -39,6 +39,9 @@ Route::prefix('user')->group(function () {
         Route::post('ubah/{id}', [App\Http\Controllers\HomeController::class, 'updateUser'])->name('admin.update.post');
         Route::get('ubah/{id}', [App\Http\Controllers\HomeController::class, 'getDetailAdmin'])->name('admin.edit');
         Route::get('hapus/{id}', [App\Http\Controllers\HomeController::class, 'delete'])->name('admin.delete');
+        Route::get('file-import-admin', [HomeController::class, 'ImportAdmin'])->name('ImportAdmin');
+        Route::post('file-import', [HomeController::class, 'fileImportAdmin'])->name('fileImportAdmin');
+        Route::get('file-export', [HomeController::class, 'fileExportAdmin'])->name('fileExportAdmin');
     });
     Route::prefix('siswa')->group(function () {
         Route::get('', [App\Http\Controllers\HomeController::class, 'siswa'])->name('siswa');
@@ -52,6 +55,12 @@ Route::prefix('user')->group(function () {
     });
     Route::prefix('tagihan')->group(function () {
         // Admin
+
+        Route::get('file-import', [HomeController::class, 'ImportTagihan'])->name('ImportTagihan');
+        Route::post('file-import', [HomeController::class, 'fileImportTagihan'])->name('fileImportTagihan');
+        Route::get('file-export', [HomeController::class, 'fileExportTagihan'])->name('fileExportTagihan');
+
+
         Route::get('', [App\Http\Controllers\HomeController::class, 'tagihan'])->name('tagihan');
         Route::get('add', [App\Http\Controllers\HomeController::class, 'tagihanAdd'])->name('tagihan.add');
         Route::post('add', [App\Http\Controllers\HomeController::class, 'tagihanAddPost'])->name('tagihan.add.post');

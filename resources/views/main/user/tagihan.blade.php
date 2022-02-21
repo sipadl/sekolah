@@ -5,8 +5,8 @@
         <a href="{{route('tagihan.add') }}" class="btn btn-info btn-block text-light">Tambah Tagihan</a>
     </div>
     <div class="">
-        <a href="#" class="btn btn-danger btn-block text-light">Export</a>
-        <a href="#" class="btn btn-warning btn-block text-light">Import</a>
+        <a href="{{route('ImportTagihan')}}" class="btn btn-warning btn-block text-light">Import</a>
+        <a href="{{ route('fileExportTagihan') }}" class="btn btn-danger btn-block text-light">Export</a>
     </div>
 </div>
 <div class="card p-2">

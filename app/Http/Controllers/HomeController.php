@@ -11,7 +11,11 @@ use Hash;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsersImport;
+use App\Imports\TagihanImport;
+use App\Imports\AdminImport;
 use App\Exports\UsersExport;
+use App\Exports\AdminExport;
+use App\Exports\UsersTagihan;
 
 class HomeController extends Controller
 {
@@ -40,7 +44,7 @@ class HomeController extends Controller
 
     public function admin()
     {
-        $admin = DB::table('users')->where('roles', 4)->where('status', 0)->get();
+        $admin = DB::table('users')->where('roles', 4)->orwhere('roles', 3)->where('status', 0)->get();
         return view('main.user.admin',compact('admin'));
     }
 
@@ -302,8 +306,33 @@ class HomeController extends Controller
        return view('main.user.file-import');
     }
 
+    public function ImportAdmin()
+    {
+        return view('main.user.import-admin');
+    }
+
+    public function ImportTagihan()
+    {
+        return view('main.user.import-tagihan');
+    }
     /**
-    */
+     */
+    public function fileImportAdmin(Request $request)
+    {
+        $file = $request->file('file')->move(public_path('file'),
+        $getname = $request->file('file')->getClientOriginalName());
+        $status = Excel::import(new AdminImport, public_path('file/'.$getname));
+        return back();
+    }
+
+    public function fileImportTagihan(Request $request)
+    {
+        $file = $request->file('file')->move(public_path('file'),
+        $getname = $request->file('file')->getClientOriginalName());
+        $status = Excel::import(new TagihanImport, public_path('file/'.$getname));
+        return back();
+    }
+
     public function fileImport(Request $request)
     {
         $file = $request->file('file')->move(public_path('file'),
@@ -317,5 +346,15 @@ class HomeController extends Controller
     public function fileExport()
     {
         return Excel::download(new UsersExport, 'export-user.xlsx');
+    }
+
+    public function fileExportAdmin()
+    {
+        return Excel::download(new AdminExport, 'export-admin.xlsx');
+    }
+
+    public function fileExportTagihan()
+    {
+        return Excel::download(new UsersTagihan, 'export-tagihan.xlsx');
     }
 }

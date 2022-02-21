@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
     {{-- Select2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <title>Hello, world!</title>
+    <title>Sekolah</title>
   </head>
   <body>
     <div class="container">
@@ -33,6 +33,44 @@
                           <li><a class="dropdown-item" href="{{route('tagihan.topup')}}">Top up Siswa</a></li>
                           <li><a class="dropdown-item" href="{{route('saldolist') }}">Saldo</a></li>
                           <li><a class="dropdown-item" href="{{ route('tagihan.waiting') }}">Waiting List</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ Request::segment(2) == 'profile' ?'active' : ''}}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Profile
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                          <li><a class="dropdown-item" href="{{route('settingsAdmin') }}">Pengaturan</a></li>
+                          <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+            </div>
+        </nav>
+        @endif
+        @if(Auth::user()->roles == 3)
+        <nav class="navbar navbar-expand navbar-light bg-light d-flex justify-content-center">
+            <div class="nav navbar-nav ">
+                <a class="nav-item nav-link {{ Request::segment(2) == null ?'active' : ''}}" href="{{route('user')}}">Dasboard</a>
+                {{-- <a class="nav-item nav-link {{ Request::segment(2) == 'admin' ?'active' : ''}}" href="{{route('admin')}}">Admin</a> --}}
+                {{-- <a class="nav-item nav-link {{ Request::segment(2) == 'siswa' ?'active' : ''}}" href="{{route('siswa')}}">Siswa</a> --}}
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ Request::segment(2) == 'tagihan' ?'active' : ''}}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Tagihan
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                          <li><a class="dropdown-item" href="{{route('tagihan')}}">Jenis Tagihan</a></li>
+                          <li><a class="dropdown-item" href="{{route('tagihan.history')}}">Riwayat Tagihan</a></li>
+                          {{-- <li><a class="dropdown-item" href="{{route('tagihan.topup')}}">Top up Siswa</a></li> --}}
+                          <li><a class="dropdown-item" href="{{route('saldolist') }}">Saldo Siswa</a></li>
+                          {{-- <li><a class="dropdown-item" href="{{ route('tagihan.waiting') }}">Waiting List</a></li> --}}
                         </ul>
                       </li>
                     </ul>

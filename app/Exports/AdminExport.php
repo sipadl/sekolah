@@ -11,7 +11,7 @@ use DB;
 
 
 
-class UsersExport implements FromQuery, WithHeadings
+class AdminExport implements FromQuery, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -21,7 +21,7 @@ class UsersExport implements FromQuery, WithHeadings
     public function query()
     {
 
-        return User::query()->select('id','name','username','fullname','kelas','gender','nisn','telp','email','tempat_lahir','tanggal_lahir','created_at')->where('roles', 0);
+        return User::query()->select('id','name','username','fullname','kelas','gender','nisn','telp','email','tempat_lahir','tanggal_lahir','created_at')->where('roles', 4);
     }
 
     public function headings(): array
