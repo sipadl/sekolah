@@ -5,8 +5,8 @@
         <a href="{{route('siswa.add') }}" class="btn btn-info btn-block text-light">Tambah Siswa</a>
     </div>
     <div class="">
-        <a href="#" class="btn btn-danger btn-block text-light">Export</a>
-        <a href="#" class="btn btn-warning btn-block text-light">Import</a>
+        <a href="{{route('fileImportExport') }} " class="btn btn-danger btn-block text-light">Import</a>
+        <a href="{{route('file-export') }}" class="btn btn-warning btn-block text-light">Export</a>
     </div>
 </div>
 <div class="card p-2">

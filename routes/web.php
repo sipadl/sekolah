@@ -32,9 +32,6 @@ Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->n
 Route::prefix('user')->group(function () {
     Route::get('', [App\Http\Controllers\HomeController::class, 'index'])->name('user');
     Route::prefix('admin')->group(function () {
-        Route::get('file-import-export', [HomeController::class, 'fileImportExport'])->name('fileImportExport');
-        Route::post('file-import', [HomeController::class, 'fileImport'])->name('file-import');
-        Route::get('file-export', [HomeController::class, 'fileExport'])->name('file-export');
         Route::get('', [App\Http\Controllers\HomeController::class, 'admin'])->name('admin');
         Route::get('pengaturan', [App\Http\Controllers\HomeController::class, 'settingsAdmin'])->name('settingsAdmin');
         Route::get('add', [App\Http\Controllers\HomeController::class, 'addAdmin'])->name('admin.add');
@@ -49,6 +46,9 @@ Route::prefix('user')->group(function () {
         Route::post('add-post', [App\Http\Controllers\HomeController::class, 'siswaAddPost'])->name('siswa.add.post');
         Route::get('ubah/{id}', [App\Http\Controllers\HomeController::class, 'getDetailSiswa'])->name('siswa.edit');
         Route::get('hapus/{id}', [App\Http\Controllers\HomeController::class, 'siswaDelete'])->name('siswa.delete');
+        Route::get('file-import-export', [HomeController::class, 'fileImportExport'])->name('fileImportExport');
+        Route::post('file-import', [HomeController::class, 'fileImport'])->name('file-import');
+        Route::get('file-export', [HomeController::class, 'fileExport'])->name('file-export');
     });
     Route::prefix('tagihan')->group(function () {
         // Admin

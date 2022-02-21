@@ -309,7 +309,6 @@ class HomeController extends Controller
         $file = $request->file('file')->move(public_path('file'),
         $getname = $request->file('file')->getClientOriginalName());
         $status = Excel::import(new UsersImport, public_path('file/'.$getname));
-        dd($status);
         return back();
     }
     /**

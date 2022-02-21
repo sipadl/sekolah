@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\User;
+use Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -18,18 +19,23 @@ class UsersImport implements ToModel,WithHeadingRow
     public function model(array $row)
     {
         return new User([
-            'username' => $row[1],
-            'nama lengkap' => $row[2],
-            'nisn' => $row[3],
-            'email' => $row[4],
-            'telp' => $row[5],
-            'tempat_lahir' => $row[11],
-            'tanggal_lahir' => $row[12],
-            'tanggal_daftar' => $row[18]
+            'name' => $row['name'],
+            'username' => $row['username'],
+            'fullname' => $row['fullname'],
+            'kelas' => $row['kelas'],
+            'password' => Hash::make($row['password']),
+            'otp' => mt_rand(100000, 999999),
+            'thumbnail' => '',
+            'nisn' => $row['nis'],
+            'email' => $row['email'],
+            'telp' => $row['telp'],
+            'tempat_lahir' => $row['tempat_lahir'],
+            'tanggal_lahir' => $row['tanggal_lahir'],
+            // 'tanggal_daftar' => $row['tanggal_daftar'],
         ]);
     }
     public function headingRow(): int
     {
-        return 2;
+        return 1;
     }
 }
