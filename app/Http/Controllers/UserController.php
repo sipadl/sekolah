@@ -126,9 +126,10 @@ class UserController extends Controller
         $user = Auth::user();
         if($user->otp == $request->otp)
         {
+            $rand = mt_rand(100000, 999999);
             DB::table('users')->where('id', $user->id)->update([
                 'verified' => 1,
-                'otp' => mt_rand(100000, 999999)
+                'otp' => $rand
             ]);
             return response()->json('ok');
         }
