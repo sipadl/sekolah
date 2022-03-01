@@ -56,6 +56,24 @@
                 </div>
             </div>
             <div class="form-group row mb-2">
+                <label for="" class="label-form-col my-2 col-md-4">
+                    Foto
+                </label>
+                <div class="col-md-8">
+                    <input type="file" class="form-control" name="thumbnail"  placeholder="thumbnail" value="{{$data->thumbnail ?? ''}}">
+                </div>
+            </div>
+            @if(isset($data))
+            <div class="form-group row mb-2">
+                <label for="" class="label-form-col my-2 col-md-4">
+                    Current Foto
+                </label>
+                <div class="col-md-8">
+                    <img class="img-thumbnail w-25" src="{{ url($data->thumbnail ?? '') }}">
+                </div>
+            </div>
+            @endif
+            <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-3 my-2">Tanggal Daftar</label>
                 <div class="col-9">
                     <input type="text" readonly value="{{$data->created_at ?? date('d/m/Y')}}" class="form-control">

@@ -56,6 +56,7 @@ Route::prefix('user')->group(function () {
     Route::prefix('tagihan')->group(function () {
         // Admin
 
+        Route::get('riwayat/file-export', [HomeController::class, 'ExportRiwayatTagihan'])->name('RiwayatExport');
         Route::get('file-import', [HomeController::class, 'ImportTagihan'])->name('ImportTagihan');
         Route::post('file-import', [HomeController::class, 'fileImportTagihan'])->name('fileImportTagihan');
         Route::get('file-export', [HomeController::class, 'fileExportTagihan'])->name('fileExportTagihan');
@@ -63,6 +64,9 @@ Route::prefix('user')->group(function () {
 
         Route::get('', [App\Http\Controllers\HomeController::class, 'tagihan'])->name('tagihan');
         Route::get('add', [App\Http\Controllers\HomeController::class, 'tagihanAdd'])->name('tagihan.add');
+        Route::get('ubah/{id}', [App\Http\Controllers\HomeController::class, 'getDetailTagihan'])->name('tagihan.edit');
+        Route::post('ubah/{id}/post', [App\Http\Controllers\HomeController::class, 'DetailTagihanPost'])->name('tagihan.post');
+        Route::get('delete/{id}', [App\Http\Controllers\HomeController::class, 'deleteTagihan'])->name('tagihan.delete');
         Route::post('add', [App\Http\Controllers\HomeController::class, 'tagihanAddPost'])->name('tagihan.add.post');
         Route::get('topup', [App\Http\Controllers\HomeController::class, 'Saldos'])->name('tagihan.topup');
         Route::get('history', [App\Http\Controllers\HomeController::class, 'history'])->name('tagihan.history');

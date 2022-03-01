@@ -14,7 +14,8 @@
         <thead class="text-center">
             <tr>
                 <th>No</th>
-                <th>Nama</th>
+                <th>Nama Lengkap</th>
+                <th>Username</th>
                 <th>Kelas</th>
                 <th>NIS</th>
                 <th>Tempat Lahir</th>
@@ -29,7 +30,8 @@
             @foreach($user as $ad)
             <tr>
                 <td scope="row">{{$i++}}</td>
-                <td>{{$ad->name}}</td>
+                <td>{{$ad->fullname}}</td>
+                <td>{{$ad->username}}</td>
                 <td>{{$ad->kelas}}</td>
                 <td>{{$ad->nisn}}</td>
                 <td>{{$ad->tempat_lahir}}</td>

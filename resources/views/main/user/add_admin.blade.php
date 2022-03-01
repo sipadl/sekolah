@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-6">
         <div class="card p-3">
-            <h4>Tambah Admin</h4>
+            <h4>Tambah Admin / Accuntant</h4>
             <hr>
             <form action="{{route('admin.add.post')}}" method="POST">
                 @csrf
@@ -21,6 +21,17 @@
                 </label>
                 <div class="col-md-9">
                     <input type="password" class="form-control" name="password"  placeholder="Password" value="{{$admin->password ?? ''}}">
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label for="" class="label-form-col my-2 col-md-3">
+                    Role
+                </label>
+                <div class="col-md-9">
+                    <select name="role" id="" class="form-control">
+                        <option value="4">Admin</option>
+                        <option value="3">Akuntan</option>
+                    </select>
                 </div>
             </div>
             <div class="text-end">

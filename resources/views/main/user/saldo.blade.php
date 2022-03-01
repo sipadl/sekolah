@@ -14,10 +14,10 @@
             <tr>
                 <th>No</th>
                 <th>NISN</th>
-                <th>Kelas</th>
                 <th>Siswa</th>
+                <th>Kelas</th>
                 <th>Saldo</th>
-                <th>Action</th>
+                {{-- <th>Action</th> --}}
             </tr>
         </thead>
         <tbody class="text-center">
@@ -31,14 +31,11 @@
                 <td>{{$ad->name}}</td>
                 <td>{{$ad->kelas}}</td>
                 <td>{{'Rp '.number_format($ad->saldo,0)}}</td>
-                <td>
+                {{-- <td>
                     <span>
-                        <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+                        <a href="#" class="btn btn-warning btn-sm">Top Up</a>
                     </span>
-                    <span>
-                        <a href="#" class="btn btn-warning btn-sm">Ubah</a>
-                    </span>
-                </td>
+                </td> --}}
             </tr>
             @endforeach
         </tbody>

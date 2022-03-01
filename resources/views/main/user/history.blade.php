@@ -5,7 +5,7 @@
         <h4 class="my-2 text-center">Riwayat Tagihan</h4>
     </div>
     <div class="">
-        <a href="#" class="btn btn-danger btn-block text-light">Export</a>
+        <a href="{{ route('RiwayatExport') }}" class="btn btn-danger btn-block text-light">Export</a>
     </div>
 </div>
 <div class="card p-2">

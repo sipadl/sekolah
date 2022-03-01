@@ -14,6 +14,7 @@
         <thead class="text-center">
             <tr>
                 <th>No</th>
+                <th>Foto</th>
                 <th>Name</th>
                 <th>Level</th>
                 <th>Action</th>
@@ -26,8 +27,9 @@
             @foreach($admin as $ad)
             <tr>
                 <td scope="row">{{$i++}}</td>
+                <td><img class="" width="40px" height="40px" src={{ is_file(asset($ad->thumbnail)) ? url(asset($ad->thumbnail)) : url(asset('/images/default-profile.jpg')) }} alt=".."></td>
                 <td>{{$ad->username}}</td>
-                <td>{{($ad->roles != 4)?'Super Admin':'Administrator' }}</td>
+                <td>{{($ad->roles != 4)?'Akuntan':'Administrator' }}</td>
                 <td>
                     <span>
                         <a href="{{route('admin.delete',$ad->id)}}" class="btn btn-danger btn-sm">Hapus</a>

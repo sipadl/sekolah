@@ -6,7 +6,6 @@
         {{-- <a href="{{route('tagihan.add') }}" class="btn btn-info btn-block text-light">Tambah Tagihan</a> --}}
     </div>
     <div class="">
-        <a href="#" class="btn btn-danger btn-block text-light">Export</a>
     </div>
 </div>
 <div class="card p-2">
@@ -37,8 +36,8 @@
                 <td>{{number_format($ad->debit,0)}}</td>
                 <td>{{number_format($ad->credit,0)}}</td>
                 <td>{{date('d/m/Y' ,strtotime($ad->tanggal))}}</td>
-                <td>{{$ad->tipe}}</td>
                 <td>{{$ad->keterangan ?? 'Top Up Saldo'}}</td>
+                <td>{{$ad->tipe}}</td>
 
             </tr>
             @endforeach

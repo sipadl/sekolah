@@ -14,6 +14,7 @@ use App\Imports\UsersImport;
 use App\Imports\TagihanImport;
 use App\Imports\AdminImport;
 use App\Exports\UsersExport;
+use App\Exports\RiwayatTagihan;
 use App\Exports\AdminExport;
 use App\Exports\UsersTagihan;
 
@@ -38,8 +39,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = $this->user;
-        return view('main.user.dashboard', compact('user'));
+        $user = Auth::user();
+        $tagihan = DB::select("select sum(jumlah) as total from tagihans where nisn = ? and status = 0", [$user->nisn]);
+        return view('main.user.dashboard', compact('user','tagihan'));
     }
 
     public function admin()
@@ -56,7 +58,10 @@ class HomeController extends Controller
 
     public function updateUser(Request $request, $id)
     {
-        if($request->file('thumbnail'))
+
+        $user = DB::table('users')->where('id', $id)->first();
+        $update = DB::table('users')->where('id',$id)->update($request->except('_token','thumbnail','password'));
+        if(isset($request->thumbnail))
         {
             $file = $request->file('thumbnail');
             $fileName = $file->getClientOriginalName();
@@ -67,8 +72,35 @@ class HomeController extends Controller
                 'thumbnail' => $thumbnail,
             ]);
         }
-        $user = DB::table('users')->where('id',$id)->update($request->all());
-        return redirect()->back()->with('success', 'Data berhasil diubah');
+        if($request->password)
+        {
+            $masuk = Hash::check($request->password, $user->password);
+            if($masuk){
+                DB::table('users')->where('id', $id)->update([
+                    'password' => Hash::make($request->password),
+                ]);
+            }
+        }
+        return redirect()->route('siswa')->with('msg', 'Data berhasil diubah');
+    }
+
+    public function getDetailTagihan($id)
+    {
+        $tagihan = DB::table('tagihans')->where('id', $id)->first();
+        $tipe = DB::table('tipe_tagihan')->where('id', $tagihan->tipe_tagihan)->get();
+        return view('main.user.update.tagihan', compact('tagihan','tipe'));
+    }
+
+    public function DetailTagihanPost(Request $request, $id)
+    {
+        $tagihan = DB::table('tagihans')->where('id', $id)->update($request->except('_token'));
+        return redirect()->route('tagihan')->with('msg', 'Data berhasil diubah');
+    }
+
+    public function deleteTagihan($id)
+    {
+        $tagihan = DB::table('tagihans')->where('id', $id)->delete();
+        return redirect()->route('tagihan')->with('msg', 'Data berhasil dihapus');
     }
 
     public function delete($id)
@@ -92,10 +124,11 @@ class HomeController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules);
         if(!$validator){
-            return redirect()->back()->with(['msg' => $validator->errors()->all()]);
+            return redirect()->back()->with('msg' , $validator->errors()->all() );
         }
         $data = [
-            'name' => 'admin',
+            'fullname' => $request->username,
+            'name' => $request->username,
             'username' => $request->username,
             'kelas' => 0,
             'nisn' => 0,
@@ -104,11 +137,11 @@ class HomeController extends Controller
             'otp' => mt_rand(100000, 999999),
             'tempat_lahir' => '',
             'tanggal_lahir' => '',
-            'thumbnail' => '',
-            'roles' => 4,
+            'thumbnail' => '/images/default-profile.jpg',
+            'roles' => $request->role,
         ];
         DB::table('users')->insert($data);
-        return redirect()->route('admin')->with(['msg' => 'Berhasil Menambahkan Data']);
+        return redirect()->route('admin')->with('msg' , 'Berhasil Menambahkan Data');
     }
 
     public function siswa()
@@ -125,7 +158,7 @@ class HomeController extends Controller
     public function siswaAddPost(Request $request)
     {
         $rules = [
-            'nama' => 'required',
+            'username' => 'required',
             'kelas' => 'required',
             'nisn' => 'required',
             'tempat_lahir' => 'required',
@@ -143,7 +176,7 @@ class HomeController extends Controller
         $fileName = $file->getClientOriginalName();
         $location = 'images/';
         $data = [
-            'name' => $request->nama,
+            'name' => explode(" ",$request->full_name)[0],
             'fullname' => $request->full_name,
             'username' => str_replace(' ','_',$request->name),
             'gender' => $request->gender,
@@ -160,12 +193,11 @@ class HomeController extends Controller
             'created_at' => Carbon::now()
         ];
         try{
-
             $createAccount = $this->main->createMandatory($data);
             $user = DB::table('users')->insert($data);
             $file->move($location, $fileName);
 
-            return redirect()->route('siswa')->with(['msg' => 'Berhasil Menambahkan Data']);
+            return redirect()->route('siswa')->with('msg' , 'Berhasil Menambahkan Data');
         } catch(\Exception $e)
         {
             dd($e);
@@ -222,7 +254,7 @@ class HomeController extends Controller
             'created_at' => Carbon::now()
         ];
         DB::table('tagihans')->insert($data);
-        return redirect()->route('tagihan')->with(['msg' => 'Berhasil Menambahkan Data']);
+        return redirect()->route('tagihan')->with('msg' , 'Berhasil Menambahkan Data');
     }
 
     public function Saldos()
@@ -245,7 +277,7 @@ class HomeController extends Controller
             return redirect()->back()->withErrors($validator);
         }
         $topup = $this->main->TopUp($request->all(), 1);
-        return redirect()->route('tagihan')->with(['msg' => 'Berhasil Menambahkan Data']);
+        return redirect()->route('tagihan')->with('msg' , 'Berhasil Menambahkan Data');
     }
 
     public function history()
@@ -284,15 +316,16 @@ class HomeController extends Controller
             'nisn' => $tagihan->nisn,
             'nominal' => $tagihan->jumlah_bayar,
         ];
-        $topup = $this->main->TopUp($data, 1);
+        $topup = $this->main->TopUp($data, 0);
         $this->main->updateStatusTransaction($id);
         return redirect()->back();
     }
     public function deny($id)
     {
         $cancel = DB::table('transactions')->where('id', $id)->update([
-            'status' => 'deny'
+            'tipe' => 'deny'
         ]);
+        return redirect()->back();
     }
 
     public function settingsAdmin()
@@ -322,7 +355,7 @@ class HomeController extends Controller
         $file = $request->file('file')->move(public_path('file'),
         $getname = $request->file('file')->getClientOriginalName());
         $status = Excel::import(new AdminImport, public_path('file/'.$getname));
-        return back();
+        return back()->with('msg' , 'Berhasil Menambahkan Data');
     }
 
     public function fileImportTagihan(Request $request)
@@ -330,7 +363,7 @@ class HomeController extends Controller
         $file = $request->file('file')->move(public_path('file'),
         $getname = $request->file('file')->getClientOriginalName());
         $status = Excel::import(new TagihanImport, public_path('file/'.$getname));
-        return back();
+        return back()->with('msg' , 'Berhasil Menambahkan Data');
     }
 
     public function fileImport(Request $request)
@@ -338,7 +371,7 @@ class HomeController extends Controller
         $file = $request->file('file')->move(public_path('file'),
         $getname = $request->file('file')->getClientOriginalName());
         $status = Excel::import(new UsersImport, public_path('file/'.$getname));
-        return back();
+        return back()->with('msg' , 'Berhasil Menambahkan Data');
     }
     /**
     * @return \Illuminate\Support\Collection
@@ -356,5 +389,10 @@ class HomeController extends Controller
     public function fileExportTagihan()
     {
         return Excel::download(new UsersTagihan, 'export-tagihan.xlsx');
+    }
+
+    public function ExportRiwayatTagihan()
+    {
+        return Excel::download(new RiwayatTagihan, 'export-riwayat-tagihan.xlsx');
     }
 }

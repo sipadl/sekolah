@@ -39,10 +39,10 @@
                 <td>{{$ad->nisn}}</td>
                 <td>
                     <span>
-                        <a href="{{route('siswa.delete',$ad->id)}}" class="btn btn-danger btn-sm">Hapus</a>
+                        <a href="{{route('tagihan.delete',$ad->id)}}" class="btn btn-danger btn-sm">Hapus</a>
                     </span>
                     <span>
-                        <a href="{{route('siswa.edit',$ad->id)}}" class="btn btn-warning btn-sm">Ubah</a>
+                        <a href="{{route('tagihan.edit',$ad->id)}}" class="btn btn-warning btn-sm">Ubah</a>
                     </span>
                 </td>
             </tr>

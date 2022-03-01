@@ -56,7 +56,7 @@ class Main {
                     "idCif" => "",
                     "companyCode" => "10002",
                     "productCode" => "Merchant",
-                    "name" => $data['name'],
+                    "name" => $data['fullname'],
                     "fullName" => $data['fullname'],
                     "gender" => $data['gender'] ?? 0,
                     "birthPlace" => $data['tempat_lahir'],
@@ -64,7 +64,7 @@ class Main {
                     "identityNumber" => "",
                     "identityType" => "",
                     "motherMaidenName" => "",
-                    "callName" => $data['name'],
+                    "callName" => $data['fullname'],
                     "phone" => $data['telp'],
                     "phoneType" => "1",
                     "email" => $data['email'],
@@ -92,7 +92,7 @@ class Main {
         $create = $this->url('account-opening/create-account-cif-mandatory', $mandatory);
         $hx = $create->response;
         $datax = [
-            'nisn' => $data->nisn ?? 0,
+            'nisn' => $data['nisn'] ?? 0,
             'cif_number' => $hx->cifNumber,
             'account_number' => $hx->accountNumber,
         ];
@@ -192,12 +192,12 @@ class Main {
     {
         $transaction = [
             'nisn' => $user,
-            'jumlah_bayar' => $data['jumlah'],
+            'jumlah_bayar' => $data->jumlah,
             'tipe_bayar' => 0, // admin = 1 // self = 0
-            'tipe' => 'waiting',
-            'credit' => $data['jumlah'],
-            'tagihan_id' => $data['id'] ?? null,
-            'bank_id' => $data['bank_id'] ?? 0,
+            'tipe' => 'success',
+            'credit' => $data->jumlah,
+            'tagihan_id' => $data->id ?? null,
+            'bank_id' => $data->bank_id ?? 0,
             'created_at' => Carbon::now()
         ];
         DB::table('transactions')->insertGetId($transaction);

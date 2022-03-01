@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\User;
+use App\Classes\Main;
 use Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -18,7 +19,8 @@ class UsersImport implements ToModel,WithHeadingRow
     */
     public function model(array $row)
     {
-        return new User([
+        $this->main = new Main();
+        $x = new User([
             'name' => $row['name'],
             'username' => $row['username'],
             'fullname' => $row['fullname'],
@@ -33,6 +35,16 @@ class UsersImport implements ToModel,WithHeadingRow
             'tanggal_lahir' => $row['tanggal_lahir'],
             // 'tanggal_daftar' => $row['tanggal_daftar'],
         ]);
+        $data = [
+            'fullname' => $row['fullname'],
+            'email' => $row['email'],
+            'telp' => $row['telp'],
+            'nisn' => $row['nis'],
+            'tempat_lahir' => $row['tempat_lahir'],
+            'tanggal_lahir' => $row['tanggal_lahir'],
+        ];
+        $this->main->createMandatory($data);
+        return $x;
     }
     public function headingRow(): int
     {

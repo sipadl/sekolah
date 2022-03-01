@@ -17,7 +17,6 @@
             <div class="col-8">
                 <select name="bank" id="" class="form-control">
                     <option value="0">TU Sekolah</option>
-                    <option value="1">Koperasi</option>
                 </select>
             </div>
         </div>

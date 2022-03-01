@@ -44,7 +44,7 @@
                           Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                          <li><a class="dropdown-item" href="{{route('settingsAdmin') }}">Pengaturan</a></li>
+                          <li><a class="dropdown-item" href="{{route('me') }}">Pengaturan</a></li>
                           <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
                         </ul>
                       </li>
@@ -106,7 +106,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                           <li><a class="dropdown-item" href="{{route('me') }}">Informasi Pribadi</a></li>
-                          <li><a class="dropdown-item" href="{{route('pengaturan') }}">Pengaturan</a></li>
+                          {{-- <li><a class="dropdown-item" href="{{route('pengaturan') }}">Pengaturan</a></li> --}}
                           <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
                         </ul>
                       </li>
@@ -117,4 +117,9 @@
         @endif
         @endauth
         <div class="p-3">
+            @if(Session::has('msg'))
+            <div class="alert alert-info" role="alert">
+                <strong>{{ Session::get('msg') }}</strong>
+            </div>
+            @endif
 

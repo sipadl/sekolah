@@ -66,6 +66,7 @@ class UserController extends Controller
             $this->main->transactions($tagihan, $user->nisn);
             $this->main->updateTagihan($id);
             echo '<script>alert("Pembayaran berhasil");</script>';
+            return redirect()->back();
         }
     }
 
@@ -91,7 +92,7 @@ class UserController extends Controller
     public function MyInfo()
     {
         $user = Auth::user();
-        $data = DB::select("select * from users s
+        $data = DB::select("select s.*, ua.cif_number, ua.account_number from users s
         left join user_account ua on s.nisn = ua.nisn
         where s.id = ?", [$user->id])[0];
         return view('main.user.myinfo_user', compact('data'));
@@ -100,7 +101,7 @@ class UserController extends Controller
     public function settings()
     {
         $user = Auth::user();
-        $data = DB::select("select * from users s
+        $data = DB::select("select s.*, ua.cif_number, ua.account_number from users s
         left join user_account ua on s.nisn = ua.nisn
         where s.id = ?", [$user->id])[0];
 

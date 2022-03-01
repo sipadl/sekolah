@@ -7,6 +7,7 @@
             <h4 class="">Ubah Info Pribadi</h4>
         </div>
         <br>
+        <form action="">
             @csrf
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-3 my-2">Nama Lengkap</label>
@@ -46,9 +47,10 @@
                 </div>
             </div>
             <div class="text-end mt-4 {{ $data->verified != 1 ?? 'd-none' }}" id="submit-btn">
-                <button class="btn btn-info text-light">Simpan</button>
-                <button class="btn btn-danger text-light">Batal</button>
+                <button type="submit" class="btn btn-info text-light">Simpan</button>
+                <a href="{{ route('user') }}" class="btn btn-danger text-light">Batal</a>
             </div>
+        </form>
     </div>
 </div>
 @section('script')

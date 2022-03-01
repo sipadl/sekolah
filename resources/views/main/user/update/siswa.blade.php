@@ -12,15 +12,15 @@
                     Nama Lengkap
                 </label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" name="full_name" id="full_name" value="{{$user->fullname ?? ''}}" placeholder="Nama Lengkap">
+                    <input type="text" class="form-control" name="fullname" id="full_name" value="{{$user->fullname ?? ''}}" placeholder="Nama Lengkap">
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col my-2 col-md-3">
-                    Nama Panggilan
+                   Username
                 </label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" name="nama" id="nama" value="{{$user->name ?? ''}}" placeholder="Nama Panggilan">
+                    <input type="text" class="form-control" name="username" id="nama" value="{{$user->name ?? ''}}" placeholder="Nama Panggilan">
                 </div>
             </div>
             <div class="form-group row mb-2">
