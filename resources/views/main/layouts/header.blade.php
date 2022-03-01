@@ -66,7 +66,7 @@
                           Tagihan
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                          <li><a class="dropdown-item" href="{{route('tagihan')}}">Jenis Tagihan</a></li>
+                          {{-- <li><a class="dropdown-item" href="{{route('tagihan')}}">Jenis Tagihan</a></li> --}}
                           <li><a class="dropdown-item" href="{{route('tagihan.history')}}">Riwayat Tagihan</a></li>
                           {{-- <li><a class="dropdown-item" href="{{route('tagihan.topup')}}">Top up Siswa</a></li> --}}
                           <li><a class="dropdown-item" href="{{route('saldolist') }}">Saldo Siswa</a></li>
@@ -82,7 +82,7 @@
                           Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                          <li><a class="dropdown-item" href="{{route('settingsAdmin') }}">Pengaturan</a></li>
+                          <li><a class="dropdown-item" href="{{route('me') }}">Pengaturan</a></li>
                           <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
                         </ul>
                       </li>

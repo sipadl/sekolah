@@ -14,6 +14,7 @@
                     <input type="text" name="fullname" value="{{$data->fullname}}" class="form-control">
                 </div>
             </div>
+            @if($data->roles == 0 )
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-4 my-2">NIS</label>
                 <div class="col-8">
@@ -38,6 +39,7 @@
                     <input type="text" readonly value="{{$data->cif_number}}" class="form-control">
                 </div>
             </div>
+            @endif
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-4 my-2">Email</label>
                 <div class="col-8">
@@ -74,12 +76,14 @@
                 </div>
             </div>
             @endif
+            @if($data->roles == 0)
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-4 my-2">Tanggal Daftar</label>
                 <div class="col-8">
                     <input type="text" readonly value="{{$data->created_at ?? date('d/m/Y')}}" class="form-control">
                 </div>
             </div>
+            @endif
             <div class="text-end mt-4 {{ $data->verified != 1 ?? 'd-none' }}" id="submit-btn">
                 <button class="btn btn-info text-light" type="submit">Simpan</button>
                 <a href="{{ route('me') }}" class="btn btn-danger text-light">Batal</a>

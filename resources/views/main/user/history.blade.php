@@ -19,7 +19,7 @@
                 <th>Tagihan</th>
                 <th>Keterangan</th>
                 <th>Jumlah</th>
-                <th>Action</th>
+                {{-- <th>Action</th> --}}
             </tr>
         </thead>
         <tbody class="text-center">
@@ -35,14 +35,14 @@
                 <td>{{$ad->tagihan}}</td>
                 <td>{{$ad->keterangan}}</td>
                 <td>{{'Rp '.number_format($ad->jumlah,0)}}</td>
-                <td>
+                {{-- <td>
                     <span>
                         <a href="{{route('admin.delete',$ad->id)}}" class="btn btn-danger btn-sm">Hapus</a>
                     </span>
                     <span>
                         <a href="{{route('admin.edit',$ad->id)}}" class="btn btn-warning btn-sm">Ubah</a>
                     </span>
-                </td>
+                </td> --}}
             </tr>
             @endforeach
         </tbody>

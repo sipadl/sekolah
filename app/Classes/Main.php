@@ -91,6 +91,7 @@ class Main {
         ];
         $create = $this->url('account-opening/create-account-cif-mandatory', $mandatory);
         $hx = $create->response;
+
         $datax = [
             'nisn' => $data['nisn'] ?? 0,
             'cif_number' => $hx->cifNumber,
