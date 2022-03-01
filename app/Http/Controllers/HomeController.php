@@ -178,7 +178,7 @@ class HomeController extends Controller
         $data = [
             'name' => explode(" ",$request->full_name)[0],
             'fullname' => $request->full_name,
-            'username' => str_replace(' ','_',$request->name),
+            'username' => $request->username,
             'gender' => $request->gender,
             'kelas' => $request->kelas,
             'nisn' => $request->nisn,
