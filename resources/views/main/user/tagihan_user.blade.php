@@ -14,6 +14,7 @@
             <tr>
                 <th>No</th>
                 <th>NIS</th>
+                <th>Username</th>
                 <th>Nama Siswa</th>
                 <th>Kelas</th>
                 <th>Tagihan</th>
@@ -31,6 +32,7 @@
             <tr>
                 <td scope="row">{{$i++}}</td>
                 <td>{{$ad->nisn}}</td>
+                <td>{{$ad->username}}</td>
                 <td>{{$ad->fullname}}</td>
                 <td>{{$ad->kelas}}</td>
                 <td>{{$ad->tipe_tagihan}}</td>

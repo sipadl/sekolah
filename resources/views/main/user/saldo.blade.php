@@ -2,10 +2,10 @@
 @section('content')
 <div class="d-flex justify-content-between my-2">
     <div class="">
-        <h4 class="my-2 text-center">Riwayat Tagihan</h4>
+        <h4 class="my-2 text-center">Saldo Siswa</h4>
     </div>
     <div class="">
-        <a href="#" class="btn btn-danger btn-block text-light">Export</a>
+        <a href="{{ route('ExportSaldo') }}" class="btn btn-danger btn-block text-light">Export</a>
     </div>
 </div>
 <div class="card p-2">
@@ -14,7 +14,8 @@
             <tr>
                 <th>No</th>
                 <th>NISN</th>
-                <th>Siswa</th>
+                <th>Username</th>
+                <th>Nama Lengkap</th>
                 <th>Kelas</th>
                 <th>Saldo</th>
                 {{-- <th>Action</th> --}}
@@ -28,7 +29,8 @@
             <tr>
                 <td scope="row">{{$i++}}</td>
                 <td>{{$ad->nisn}}</td>
-                <td>{{$ad->name}}</td>
+                <td>{{$ad->username}}</td>
+                <td>{{$ad->fullname}}</td>
                 <td>{{$ad->kelas}}</td>
                 <td>{{'Rp '.number_format($ad->saldo,0)}}</td>
                 {{-- <td>

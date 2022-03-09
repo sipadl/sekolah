@@ -17,6 +17,7 @@ use App\Exports\UsersExport;
 use App\Exports\RiwayatTagihan;
 use App\Exports\AdminExport;
 use App\Exports\UsersTagihan;
+use App\Exports\SaldoExport;
 
 class HomeController extends Controller
 {
@@ -59,8 +60,6 @@ class HomeController extends Controller
     public function updateUser(Request $request, $id)
     {
 
-        $user = DB::table('users')->where('id', $id)->first();
-        $update = DB::table('users')->where('id',$id)->update($request->except('_token','thumbnail','password'));
         if(isset($request->thumbnail))
         {
             $file = $request->file('thumbnail');
@@ -72,6 +71,8 @@ class HomeController extends Controller
                 'thumbnail' => $thumbnail,
             ]);
         }
+        $user = DB::table('users')->where('id', $id)->first();
+        $update = DB::table('users')->where('id',$id)->update($request->except('_token','thumbnail','password'));
         if($request->password)
         {
             $masuk = Hash::check($request->password, $user->password);
@@ -81,7 +82,7 @@ class HomeController extends Controller
                 ]);
             }
         }
-        return redirect()->route('siswa')->with('msg', 'Data berhasil diubah');
+        return redirect()->route('me')->with('msg', 'Data berhasil diubah');
     }
 
     public function getDetailTagihan($id)
@@ -121,10 +122,11 @@ class HomeController extends Controller
         $rules = [
             'username' => 'required|unique:users',
             'password' => 'required|min:6',
+            'role' => 'required',
         ];
         $validator = Validator::make($request->all(), $rules);
-        if(!$validator){
-            return redirect()->back()->with('msg' , $validator->errors()->all() );
+        if($validator->fails()){
+            return redirect()->back()->with('msg' , $validator->errors()->first() );
         }
         $data = [
             'fullname' => $request->username,
@@ -183,7 +185,7 @@ class HomeController extends Controller
             'kelas' => $request->kelas,
             'nisn' => $request->nisn,
             'email' => $request->email,
-            'password' => hash::make('123456789'),
+            'password' => $request->password ? hash::make($request->password) : hash::make('123456789'),
             'telp' => $request->telp,
             'otp' => mt_rand(100000, 999999),
             'tempat_lahir' => $request->tempat_lahir,
@@ -277,7 +279,7 @@ class HomeController extends Controller
             return redirect()->back()->withErrors($validator);
         }
         $topup = $this->main->TopUp($request->all(), 1);
-        return redirect()->route('tagihan')->with('msg' , 'Berhasil Menambahkan Data');
+        return redirect()->route('tagihan.topup')->with('msg' , 'Berhasil Melakukan Top Up');
     }
 
     public function history()
@@ -394,5 +396,9 @@ class HomeController extends Controller
     public function ExportRiwayatTagihan()
     {
         return Excel::download(new RiwayatTagihan, 'export-riwayat-tagihan.xlsx');
+    }
+    public function ExportSaldo()
+    {
+        return Excel::download(new SaldoExport, 'export-saldo-siswa.xlsx');
     }
 }

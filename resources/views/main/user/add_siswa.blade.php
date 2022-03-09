@@ -25,6 +25,14 @@
             </div>
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col my-2 col-md-3">
+                    Password
+                </label>
+                <div class="col-md-9">
+                    <input type="password" class="form-control" name="password" id="nama" value="{{$user->username ?? ''}}" placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label for="" class="label-form-col my-2 col-md-3">
                     No. Handphone
                 </label>
                 <div class="col-md-9">

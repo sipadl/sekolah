@@ -9,10 +9,11 @@
             @csrf
             <div class="form-group row mb-2">
                     <label for="" class="label-form-col my-2 col-md-3">
-                    Jenis Tagihan
+                    Jenis Tagihans
                 </label>
+                <input type="hidden" name="dropdown" id="ddvalue" value="{{$tagihan->tipe_tagihan}}">
                 <div class="col-md-9">
-                    <select name="tipe_tagihan" id="" value="{{$tagihan->tipe_tagihan ?? ''}}" class="form-control">
+                    <select name="tipe_tagihan" id="ddparent" value="" class="form-control">
                         <option value="">Pilih Salah Satu</option>
                         @foreach($tipe as $t)
                         <option value="{{$t->id}}">{{$t->tipe_tagihan}}</option>
@@ -64,4 +65,11 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    $(window).on('load', function(){
+        $('#ddparent').val('{{$tagihan->tipe_tagihan}}');
+    });
+</script>
 @endsection

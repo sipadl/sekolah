@@ -60,6 +60,7 @@ Route::prefix('user')->group(function () {
         Route::get('file-import', [HomeController::class, 'ImportTagihan'])->name('ImportTagihan');
         Route::post('file-import', [HomeController::class, 'fileImportTagihan'])->name('fileImportTagihan');
         Route::get('file-export', [HomeController::class, 'fileExportTagihan'])->name('fileExportTagihan');
+        Route::get('export-saldo', [HomeController::class, 'ExportSaldo'])->name('ExportSaldo');
 
 
         Route::get('', [App\Http\Controllers\HomeController::class, 'tagihan'])->name('tagihan');
