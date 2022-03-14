@@ -39,33 +39,40 @@ class AuthController extends Controller
                 return redirect()->route('user');
             }
         }
-        return 'gagal';
+        return `<script>
+            alert('password salah silahkan cek kembali password anda');
+        </script>`;
         // return redirect()->back()->with(['msg' => 'username tidak ditemukan'])->withInput();;
     }
 
     // Untuk Default
+    // public function register()
+    // {
+    //     $data = [
+    //         'name' => 'admin',
+    //         'username' => 'admin',
+    //         'fullname' => 'administrator',
+    //         'gender' => 1,
+    //         'kelas' => 0,
+    //         'nisn' => 0,
+    //         'email' => 'admin@gmail.com',
+    //         'password' => hash::make('admin'),
+    //         'otp' => mt_rand(100000, 999999),
+    //         'tempat_lahir' => '',
+    //         'tanggal_lahir' => '',
+    //         'thumbnail' => '',
+    //         'roles' => 4,
+    //     ];
+    //     $user = DB::table('users')->insert($data);
+    //     if($user){
+    //         return response()->json(true);
+    //     }
+    //     return response()->json(false);
+    // }
+
     public function register()
     {
-        $data = [
-            'name' => 'admin',
-            'username' => 'admin',
-            'fullname' => 'administrator',
-            'gender' => 1,
-            'kelas' => 0,
-            'nisn' => 0,
-            'email' => 'admin@gmail.com',
-            'password' => hash::make('admin'),
-            'otp' => mt_rand(100000, 999999),
-            'tempat_lahir' => '',
-            'tanggal_lahir' => '',
-            'thumbnail' => '',
-            'roles' => 4,
-        ];
-        $user = DB::table('users')->insert($data);
-        if($user){
-            return response()->json(true);
-        }
-        return response()->json(false);
+        return view('main.auth.regis');
     }
 
     public function logout()

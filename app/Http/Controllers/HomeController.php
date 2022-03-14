@@ -41,6 +41,9 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
+        if($user->roles == 0 ){
+            $cek = $this->main->checkTagihan($user);
+        }
         $tagihan = DB::select("select sum(jumlah) as total from tagihans where nisn = ? and status = 0", [$user->nisn]);
         return view('main.user.dashboard', compact('user','tagihan'));
     }

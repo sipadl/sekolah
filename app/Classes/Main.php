@@ -158,7 +158,7 @@ class Main {
 
     function tagihan($id)
     {
-        $tagihan = DB::select("select u.fullname, u.kelas, t.*, tt.tipe_tagihan from tagihans t
+        $tagihan = DB::select("select u.fullname,u.username, u.kelas, t.*, tt.tipe_tagihan from tagihans t
         left join users u on u.nisn = t.nisn
         left join tipe_tagihan tt on tt.id = t.tipe_tagihan
         where t.nisn = ?", [$id]);
@@ -263,5 +263,34 @@ class Main {
                 'url' => env('BASE_URL')
             ];
         Mail::to($email)->send(new SendMail($data));
+    }
+
+    function pelunasan($idTagihan, $userId) {
+        $tagihan = $this->DetailTagihan($idTagihan);
+        $user = DB::table('users')->where('id', $userId)->first();
+        $saldo = $user->saldo - $tagihan->jumlah;
+        $this->updateSaldo($user->id, $saldo);
+        $this->transactions($tagihan, $user->nisn);
+        $this->updateTagihan($idTagihan);
+    }
+
+    function checkTagihan($user)
+    {
+
+        $tagihan = DB::table('tagihans')->where('nisn', $user->nisn)->get();
+        $map = array_map(function($x) use ($user) {
+            $y = [];
+            if($user->saldo >= $x->jumlah){
+                $this->pelunasan($x->id, $user->id);
+                array_push($y, true );
+            }else{
+                array_push($y, false );
+            }
+                return $y;
+        }, $tagihan->toArray());
+        $count = array_filter($map, function($x) {
+            return $x[0] == true;
+        });
+        return `<script>alert('`.count($count).` Berhasil Dibayarkan secara otomatis')</script>`;
     }
 }
