@@ -32,7 +32,6 @@ class AdminImport implements ToModel,WithHeadingRow
             'roles' => '4',
             'tempat_lahir' => $row['tempat_lahir'],
             'tanggal_lahir' => $row['tanggal_lahir'],
-            // 'tanggal_daftar' => $row['tanggal_daftar'],
         ]);
     }
     public function headingRow(): int
