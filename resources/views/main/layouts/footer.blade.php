@@ -1,5 +1,19 @@
     </div>
 </div>
+<div class="modal fade" id="logout" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Anda Yakin Akan Logout ?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tidak</button>
+          <a href="{{route('logout')}}" class="btn btn-danger">Ya, Saya Yakin</a>
+        </div>
+      </div>
+    </div>
+  </div>
 <!-- Optional JavaScript; choose one of the two! -->
 {{-- Jquery --}}
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

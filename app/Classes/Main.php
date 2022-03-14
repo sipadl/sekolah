@@ -94,9 +94,10 @@ class Main {
 
         $datax = [
             'nisn' => $data['nisn'] ?? 0,
-            'cif_number' => $hx->cifNumber,
-            'account_number' => $hx->accountNumber,
+            'cif_number' => $hx->cifNumber ?? 0,
+            'account_number' => $hx->accountNumber ?? 0,
         ];
+
         $user = DB::table('user_account')->insert($datax);
         return 'Berhasil Membuat Akun';
     }

@@ -79,7 +79,13 @@ class UserController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $transaction = $this->main->Debit($request->all(), $user->nisn);
+        $data = [
+            'user_id' => $user->id,
+            'nominal' => $request->jumlah,
+            'bank_id' => $request->bank_id,
+            'tipe' => 'success',
+        ];
+        $transaction = $this->main->TopUp($data, 1);
         return redirect()->route('history.user');
     }
 

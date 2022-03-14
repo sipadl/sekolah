@@ -45,7 +45,10 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                           <li><a class="dropdown-item" href="{{route('me') }}">Pengaturan</a></li>
-                          <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
+                          <li><a href="javascript;:" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logout">
+                            Logout
+                          </a></li>
+                          {{-- <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li> --}}
                         </ul>
                       </li>
                     </ul>
@@ -83,7 +86,9 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                           <li><a class="dropdown-item" href="{{route('me') }}">Pengaturan</a></li>
-                          <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
+                          <li><a href="javascript;:" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logout">
+                            Logout
+                          </a></li>
                         </ul>
                       </li>
                     </ul>
@@ -107,7 +112,9 @@
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                           <li><a class="dropdown-item" href="{{route('me') }}">Informasi Pribadi</a></li>
                           {{-- <li><a class="dropdown-item" href="{{route('pengaturan') }}">Pengaturan</a></li> --}}
-                          <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
+                          <li><a href="javascript;:" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logout">
+                            Logout
+                          </a></li>
                         </ul>
                       </li>
                     </ul>

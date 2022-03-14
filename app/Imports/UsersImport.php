@@ -2,16 +2,14 @@
 
 namespace App\Imports;
 
-use App\Models\User;
-use App\Classes\Main;
+use App\Models\Siswa as User;
 use Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class UsersImport implements ToModel,WithHeadingRow
 {
+
     /**
     * @param array $row
     *
@@ -19,32 +17,45 @@ class UsersImport implements ToModel,WithHeadingRow
     */
     public function model(array $row)
     {
-        $this->main = new Main();
-        $x = new User([
-            'name' => $row['name'],
-            'username' => $row['username'],
-            'fullname' => $row['fullname'],
-            'kelas' => $row['kelas'],
-            'password' => Hash::make($row['password']),
-            'otp' => mt_rand(100000, 999999),
-            'thumbnail' => '',
-            'nisn' => $row['nis'],
-            'email' => $row['email'],
-            'telp' => $row['telp'],
-            'tempat_lahir' => $row['tempat_lahir'],
-            'tanggal_lahir' => $row['tanggal_lahir'],
-            // 'tanggal_daftar' => $row['tanggal_daftar'],
-        ]);
-        $data = [
-            'fullname' => $row['fullname'],
-            'email' => $row['email'],
-            'telp' => $row['telp'],
-            'nisn' => $row['nis'],
-            'tempat_lahir' => $row['tempat_lahir'],
-            'tanggal_lahir' => $row['tanggal_lahir'],
-        ];
-        $this->main->createMandatory($data);
-        return $x;
+        // $x = new User([
+        //     'name' => $row['fullname'],
+        //     'username' => $row['username'],
+        //     'fullname' => $row['fullname'],
+        //     'kelas' => $row['kelas'],
+        //     'password' => Hash::make($row['password']),
+        //     'otp' => mt_rand(100000, 999999),
+        //     'thumbnail' => '',
+        //     'nisn' => $row['nis'],
+        //     'email' => $row['email'],
+        //     'telp' => $row['telp'],
+        //     'tempat_lahir' => $row['tempat_lahir'],
+        //     'tanggal_lahir' => $row['tanggal_lahir'],
+        //     // 'tanggal_daftar' => $row['tanggal_daftar'],
+        // ]);
+        // $data = [
+        //     'fullname' => $row['fullname'],
+        //     'email' => $row['email'],
+        //     'telp' => $row['telp'],
+        //     'nisn' => $row['nis'],
+        //     'tempat_lahir' => $row['tempat_lahir'],
+        //     'tanggal_lahir' => $row['tanggal_lahir'],
+        // ];
+        // $this->main->createMandatory($data);
+        // return $x;
+        // return new User([
+        //     'name' => $row['fullname'],
+        //     'username' => $row['username'],
+        //     'fullname' => $row['fullname'],
+        //     'kelas' => $row['kelas'],
+        //     'password' => Hash::make($row['password']),
+        //     'otp' => mt_rand(100000, 999999),
+        //     'thumbnail' => '',
+        //     'nisn' => $row['nis'],
+        //     'email' => $row['email'],
+        //     'telp' => $row['telp'],
+        //     'tempat_lahir' => $row['tempat_lahir'],
+        //     'tanggal_lahir' => $row['tanggal_lahir'],
+        // ]);
     }
     public function headingRow(): int
     {

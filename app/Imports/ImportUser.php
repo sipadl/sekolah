@@ -1,20 +1,16 @@
 <?php
-
 namespace App\Imports;
 
-use App\Models\User;
+use App\Models\Siswa as User;
 use Hash;
+use App\Classes\Main;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class AdminImport implements ToCollection,WithHeadingRow
+
+class ImportUser implements withHeadingRow,ToCollection
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
     public function collection(Collection $rows)
     {
         $this->main = new Main;
@@ -36,18 +32,19 @@ class AdminImport implements ToCollection,WithHeadingRow
                     'tanggal_lahir' => $row['tanggal_lahir'],
                 ]);
 
-                // $data = [
-                //         'fullname' => $row['fullname'],
-                //         'email' => $row['email'],
-                //         'telp' => $row['telp'],
-                //         'nisn' => $row['nis'],
-                //         'tempat_lahir' => $row['tempat_lahir'],
-                //         'tanggal_lahir' => $row['tanggal_lahir'],
-                //     ];
-                // $this->main->createMandatory($data);
+                $data = [
+                        'fullname' => $row['fullname'],
+                        'email' => $row['email'],
+                        'telp' => $row['telp'],
+                        'nisn' => $row['nis'],
+                        'tempat_lahir' => $row['tempat_lahir'],
+                        'tanggal_lahir' => $row['tanggal_lahir'],
+                    ];
+                $this->main->createMandatory($data);
             }
         }
     }
+
     public function headingRow(): int
     {
         return 1;

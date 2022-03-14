@@ -10,7 +10,7 @@ use Validator;
 use Hash;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\UsersImport;
+use App\Imports\ImportUser;
 use App\Imports\TagihanImport;
 use App\Imports\AdminImport;
 use App\Exports\UsersExport;
@@ -372,7 +372,7 @@ class HomeController extends Controller
     {
         $file = $request->file('file')->move(public_path('file'),
         $getname = $request->file('file')->getClientOriginalName());
-        $status = Excel::import(new UsersImport, public_path('file/'.$getname));
+        $status = Excel::import(new ImportUser, public_path('file/'.$getname));
         return back()->with('msg' , 'Berhasil Menambahkan Data');
     }
     /**
