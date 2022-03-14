@@ -20,7 +20,7 @@
                     Username
                 </label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" name="username" id="nama" value="{{$user->username ?? ''}}" placeholder="Nama Panggilan">
+                    <input type="text" class="form-control" name="username" id="nama" value="{{$user->username ?? ''}}" placeholder="Nama Pengguna">
                 </div>
             </div>
             <div class="form-group row mb-2">

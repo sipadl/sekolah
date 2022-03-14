@@ -305,8 +305,7 @@ class Main {
 
 
         $admin = DB::select('select s.*, ua.account_number from users s join user_account ua
-        on ua.nisn = s.nisn where s.id = 1 ')[0] ?? null;
-
+        on ua.nisn = s.nisn where s.id = 1')[0] ?? null;
         $mandatory = [
             "request" => [
                 "overbooking" => [

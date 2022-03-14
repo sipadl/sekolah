@@ -32,6 +32,7 @@ class AuthController extends Controller
     public function logins(Request $request)
     {
         $user = DB::table('users')->where('username', $request->username)->first();
+        // ->orWhere('nisn', $request->username)->first();
         if($user)
         {
             if (Hash::check($request->password, $user->password)) {

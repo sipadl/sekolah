@@ -17,32 +17,32 @@
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-4 my-2">Username</label>
                 <div class="col-8">
-                    <input readonly type="text" name="username" value="{{$data->username}}" class="form-control ">
+                    <input readonly type="text" name="username" value="{{$data->username}}" class="form-control">
                 </div>
             </div>
             @if($data->roles == 0 )
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-4 my-2">NIS</label>
                 <div class="col-8">
-                    <input readonly type="text" readonly value="{{$data->nisn}}" class="form-control  input-form">
+                    <input readonly type="text" readonly value="{{$data->nisn}}" class="form-control">
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-4 my-2">Saldo</label>
                 <div class="col-8">
-                    <input readonly type="text" readonly value="Rp {{number_format($data->saldo)}}" class="form-control  input-form">
+                    <input readonly type="text" readonly value="Rp {{number_format($data->saldo)}}" class="form-control">
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-4 my-2">No Rekening</label>
                 <div class="col-8">
-                    <input readonly type="text" readonly value="{{$data->account_number}}" class="form-control  input-form">
+                    <input readonly type="text" readonly value="{{$data->account_number}}" class="form-control">
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-4 my-2">Cif Number</label>
                 <div class="col-8">
-                    <input readonly type="text" readonly value="{{$data->cif_number}}" class="form-control  input-form">
+                    <input readonly type="text" readonly value="{{$data->cif_number}}" class="form-control">
                 </div>
             </div>
             @endif

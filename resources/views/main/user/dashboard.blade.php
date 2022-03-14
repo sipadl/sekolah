@@ -26,12 +26,20 @@
           </div>
     </div>
     <div class="col-4">
-        @if($user->roles == 0 )
         <div class="row  d-flex my-2 justify-content-between">
-                <div class="card text-white bg-info mx-2 col-5 ">
-                    <div class="card-body">
+            @if($user->roles == 4 )
+            <div class="card text-white bg-info mx-2 col-10 ">
+                <div class="card-body">
                     <h6 class="card-title">Rp {{number_format($user->saldo,0)}}</h6>
                     <p class="card-text">Total Saldo</p>
+                </div>
+            </div>
+            @endif
+            @if($user->roles == 0 )
+                <div class="card text-white bg-info mx-2 col-5 ">
+                    <div class="card-body">
+                        <h6 class="card-title">Rp {{number_format($user->saldo,0)}}</h6>
+                        <p class="card-text">Total Saldo</p>
                     </div>
                 </div>
                 <div class="card text-white bg-danger mx-2 col-5 ">
@@ -39,9 +47,9 @@
                         <h6 class="card-title">Rp {{number_format($tagihan[0]->total,0)}}</h6>
                         <p class="card-text">Total Tagihan</p>
                     </div>
-                    </div>
+                </div>
+                @endif
             </div>
-            @endif
         <iframe src="https://calendar.google.com/calendar/embed?src=5rqouvhspac1962sa6dfvqkcso%40group.calendar.google.com&ctz=Asia%2FJakarta" style="border: 0" width="500px" height="500px" frameborder="0" scrolling="no"></iframe>
 
     </div>
