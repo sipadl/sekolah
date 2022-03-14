@@ -17,6 +17,7 @@
             </div>
         </div>
         <div class="text-center mt-4">
+            <a  href="{{ route('register') }}" class="btn btn-block btn-light">Daftar</a>
             <button class="btn btn-block btn-info text-light">Login</button>
         </div>
         </form>

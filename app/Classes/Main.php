@@ -159,7 +159,7 @@ class Main {
 
     function tagihan($id)
     {
-        $tagihan = DB::select("select u.fullname, u.kelas, t.*, tt.tipe_tagihan from tagihans t
+        $tagihan = DB::select("select u.fullname,u.username, u.kelas, t.*, tt.tipe_tagihan from tagihans t
         left join users u on u.nisn = t.nisn
         left join tipe_tagihan tt on tt.id = t.tipe_tagihan
         where t.nisn = ?", [$id]);
@@ -264,5 +264,64 @@ class Main {
                 'url' => env('BASE_URL')
             ];
         Mail::to($email)->send(new SendMail($data));
+    }
+
+    function pelunasan($idTagihan, $userId, $jumlah = 0) {
+
+        $tagihan = $this->DetailTagihan($idTagihan);
+        $user = DB::table('users')->where('id', $userId)->first();
+        $saldo = $user->saldo - $tagihan->jumlah;
+        $this->updateSaldo($user->id, $saldo);
+        $this->transactions($tagihan, $user->nisn);
+        $this->transfer($user->id, $tagihan->jumlah);
+        $this->updateTagihan($idTagihan);
+    }
+
+    function checkTagihan($user)
+    {
+        $tagihan = DB::table('tagihans')->where('nisn', $user->nisn)
+        ->where('status', 0)->get();
+        $map = array_map(function($x) use ($user) {
+            $y = [];
+            if($user->saldo >= $x->jumlah){
+                $this->pelunasan($x->id, $user->id);
+                array_push($y, true );
+            }else{
+                array_push($y, false );
+            }
+                return $y;
+        }, $tagihan->toArray());
+        $count = array_filter($map, function($x) {
+            return $x[0] == true;
+        });
+        return `<script>alert('`.count($count).` Berhasil Dibayarkan secara otomatis')</script>`;
+    }
+
+    function transfer($id, $jumlah)
+    {
+        $user = DB::select('select s.*, ua.account_number from users s join user_account ua
+        on ua.nisn = s.nisn
+        where s.id = ? ',[$id] )[0] ?? null;
+
+
+        $admin = DB::select('select s.*, ua.account_number from users s join user_account ua
+        on ua.nisn = s.nisn where s.id = 1 ')[0] ?? null;
+
+        $mandatory = [
+            "request" => [
+                "overbooking" => [
+                    "accountFrom" => $user->account_number,
+                    "currencyFrom" => "IDR",
+                    "accountTo" => $admin->account_number, //Account Number
+                    "currencyTo" => "IDR",
+                    "amount" => $jumlah,
+                    "description" => 'Transfer',
+                    "trxCode" => "",
+                    "username" => "",
+                    "dataSource" => ""
+                ]
+            ]
+        ];
+            $topups = $this->url('overbooking/trx-overbook-batch', $mandatory);
     }
 }
