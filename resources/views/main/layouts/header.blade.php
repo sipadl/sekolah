@@ -32,7 +32,7 @@
                           <li><a class="dropdown-item" href="{{route('tagihan.history')}}">Riwayat Tagihan</a></li>
                           <li><a class="dropdown-item" href="{{route('tagihan.topup')}}">Top up Siswa</a></li>
                           <li><a class="dropdown-item" href="{{route('saldolist') }}">Saldo Siswa</a></li>
-                          <li><a class="dropdown-item" href="{{ route('tagihan.waiting') }}">Waiting List</a></li>
+                          {{-- <li><a class="dropdown-item" href="{{ route('tagihan.waiting') }}">Waiting List</a></li> --}}
                         </ul>
                       </li>
                     </ul>

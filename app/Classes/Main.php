@@ -279,7 +279,7 @@ class Main {
 
     function checkTagihan($user)
     {
-        $tagihan = DB::table('tagihans')->where('nisn', $user->nisn)
+        $tagihan = DB::table('tagihans')->where('nisn', $user->nisn)->where('tipe_tagihan', 1)
         ->where('status', 0)->get();
         $map = array_map(function($x) use ($user) {
             $y = [];

@@ -97,7 +97,27 @@ class HomeController extends Controller
 
     public function DetailTagihanPost(Request $request, $id)
     {
-        $tagihan = DB::table('tagihans')->where('id', $id)->update($request->except('_token'));
+        if($request->tipe == 2 ){
+            $tagihan = DB::table('tagihans')->where('id', $id)->first();
+            $cicilan = DB::table('master_cicilan')->where('id', $request->cicilan )->first();
+            $split = explode(",", $cicilan->rate);
+            for($i = 0; $i < count($split); $i++){
+                $data = [
+                    'nisn' => $tagihan->nisn,
+                    'tipe_tagihan' => $tagihan->tipe_tagihan,
+                    'keterangan' => $tagihan->keterangan.' Cicilan '.($i+1),
+                    'jumlah' => $request->jumlah*($split[$i]/100),
+                    'tipe' => $request->tipe,
+                    'status' => 0,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+                DB::table('tagihans')->insert($data);
+                DB::table('tagihans')->where('id', $id)->delete();
+            }
+        }else{
+            $tagihan = DB::table('tagihans')->where('id', $id)->update($request->except('_token'));
+        }
         return redirect()->route('tagihan')->with('msg', 'Data berhasil diubah');
     }
 

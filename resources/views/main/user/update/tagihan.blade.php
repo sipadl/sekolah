@@ -6,12 +6,12 @@
             <h4>Tambah Siswa</h4>
             <hr>
             <form action="{{route('tagihan.post', [$tagihan->id])}}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="dropdown" id="ddvalue" value="{{$tagihan->tipe_tagihan}}">
             @csrf
             <div class="form-group row mb-2">
                     <label for="" class="label-form-col my-2 col-md-3">
                     Jenis Tagihans
                 </label>
-                <input type="hidden" name="dropdown" id="ddvalue" value="{{$tagihan->tipe_tagihan}}">
                 <div class="col-md-9">
                     <select name="tipe_tagihan" id="ddparent" value="" class="form-control">
                         <option value="">Pilih Salah Satu</option>
@@ -43,9 +43,21 @@
                 Tipe
             </label>
                 <div class="col-md-9">
-                    <select name="tipe" id="" class="form-control" value="{{ $tagihan->tipe ?? '' }}">
+                    <select name="tipe" id="tipes" onclick="selected()" class="form-control">
                         <option value="0">Bulanan</option>
                         <option value="1">1x Bayar</option>
+                        <option value="2">Cicilan</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row mb-2" id="cicilan">
+                <label for="" class="label-form-col my-2 col-md-3">
+                Jumlah Cicilan
+            </label>
+                <div class="col-md-9">
+                    <select name="cicilan" class="form-control">
+                        <option value="1">3x</option>
+                        <option value="2">6x</option>
                     </select>
                 </div>
             </div>
@@ -70,6 +82,15 @@
 <script>
     $(window).on('load', function(){
         $('#ddparent').val('{{$tagihan->tipe_tagihan}}');
+        $('#cicilan').hide();
     });
+    function selected(){
+        var e = $('#tipes :selected').val();
+        if(e == '2'){
+            $('#cicilan').show();
+        }else{
+            $('#cicilan').hide();
+        }
+    }
 </script>
 @endsection

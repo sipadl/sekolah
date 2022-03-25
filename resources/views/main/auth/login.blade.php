@@ -2,6 +2,9 @@
 @section('content')
 <div class="d-flex row justify-content-center">
     <div class="card p-4 col-5">
+        <div class="text-center">
+            <img class="w-25" src="{{ asset('/images/LogoSekolah.png') }}" alt="">
+        </div>
         <form action="{{route('logins')}}" method="POST">
         @csrf
             <div class="form-group row mb-2">

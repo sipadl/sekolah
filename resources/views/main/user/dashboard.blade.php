@@ -1,8 +1,21 @@
 @extends('main.layouts.main')
 @section('content')
 <div class="row">
-
     <div class="col-8">
+        <div class="d-flex text-center row">
+            <div class="col-6">
+                <h4>Visi</h4> <br>
+                <p>
+                    Unggul dalam prestasi, berkarakter, berbudaya, peduli lingkungan, berwawasan global yang dilandasi iman dan takwa
+                </p>
+            </div>
+            <div class="col-6">
+                <h4>Misi</h4> <br>
+                <p>
+                    Membina peserta didik unggul dalam prestasi akademis dan non-akademis di taraf nasional maupun internasional. Membina peserta didik unggul dalam perolehan nilai ujian sekolah dan ujian nasional serta berhasil masuk perguruan tinggi di dalam maupun luar negeri.
+                </div>
+
+        </div>
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
