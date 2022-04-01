@@ -29,10 +29,10 @@
             @foreach($data as $ad)
             <tr>
                 <td scope="row">{{$i++}}</td>
-                <td>{{$ad->order_number}}</td>
+                <td>{{ mt_rand(9999,99999)}}</td>
                 <td>{{$ad->nisn}}</td>
-                <td>{{$ad->name}}</td>
-                <td>{{$ad->tagihan}}</td>
+                <td>{{$ad->fullname}}</td>
+                <td>{{$ad->tipe_tagihan}}</td>
                 <td>{{$ad->keterangan}}</td>
                 <td>{{'Rp '.number_format($ad->jumlah,0)}}</td>
                 {{-- <td>

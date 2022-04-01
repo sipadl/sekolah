@@ -154,7 +154,7 @@ class HomeController extends Controller
             'name' => $request->username,
             'username' => $request->username,
             'kelas' => 0,
-            'nisn' => 0,
+            'nisn' => mt_rand(9999,999999),
             'email' => '',
             'password' => hash::make($request->password),
             'otp' => mt_rand(100000, 999999),
@@ -305,10 +305,11 @@ class HomeController extends Controller
 
     public function history()
     {
-        $data = DB::select("select u.*, keterangan, tt.tipe_tagihan as tagihan,t.jumlah,t.tipe, tu.order_number from tagihan_user tu
-        left join users u on u.id = tu.user_id
-        left join tagihans t on tu.tagihan_id = t.id
-        left join tipe_tagihan tt on t.tipe_tagihan = tt.id ");
+        $data = DB::select("select u.id, u.fullname, u.nisn, t.jumlah, t.tipe_tagihan, tt.tipe_tagihan, t.keterangan, t.created_at from tagihans t
+        join users u on u.nisn = t.nisn
+        join tipe_tagihan tt on tt.id = t.tipe_tagihan
+        where t.status = 1
+        order by t.created_at asc");
 
         return view('main.user.history', compact('data') );
     }
