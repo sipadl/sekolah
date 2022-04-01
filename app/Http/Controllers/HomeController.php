@@ -85,7 +85,7 @@ class HomeController extends Controller
                 ]);
             }
         }
-        return redirect()->route('me')->with('msg', 'Data berhasil diubah');
+        return redirect()->back()->with('msg', 'Data berhasil diubah');
     }
 
     public function getDetailTagihan($id)
@@ -129,10 +129,8 @@ class HomeController extends Controller
 
     public function delete($id)
     {
-        DB::table('users')->where('id', $id)->update([
-            'status' => 1
-        ]);
-        return redirect()->back();
+        DB::table('users')->where('id', $id)->delete();
+        return redirect()->back()->with('msg', 'Data berhasil dihapus');
     }
 
     public function addAdmin()

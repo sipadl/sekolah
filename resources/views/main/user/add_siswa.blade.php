@@ -28,7 +28,7 @@
                     Password
                 </label>
                 <div class="col-md-9">
-                    <input type="password" class="form-control" name="password" id="nama" value="{{$user->username ?? ''}}" placeholder="Password">
+                    <input type="password" class="form-control" name="password" id="nama" value="" placeholder="Password">
                 </div>
             </div>
             <div class="form-group row mb-2">

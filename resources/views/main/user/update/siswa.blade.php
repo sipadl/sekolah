@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-6">
         <div class="card p-3">
-            <h4>Tambah Siswa</h4>
+            <h4>Ubah Siswa</h4>
             <hr>
             <form action="{{route('admin.update.post', [$user->id])}}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -20,7 +20,7 @@
                    Username
                 </label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" name="username" id="nama" value="{{$user->name ?? ''}}" placeholder="Nama Panggilan">
+                    <input type="text" class="form-control" name="username" id="nama" value="{{$user->username ?? ''}}" placeholder="Nama Panggilan">
                 </div>
             </div>
             <div class="form-group row mb-2">

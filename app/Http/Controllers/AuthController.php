@@ -40,10 +40,7 @@ class AuthController extends Controller
                 return redirect()->route('user');
             }
         }
-        return `<script>
-            alert('password salah silahkan cek kembali password anda');
-        </script>`;
-        // return redirect()->back()->with(['msg' => 'username tidak ditemukan'])->withInput();;
+        return redirect()->back()->with(['msg' => 'username tidak ditemukan'])->withInput();;
     }
 
     // Untuk Default

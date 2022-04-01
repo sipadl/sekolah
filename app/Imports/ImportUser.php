@@ -25,6 +25,7 @@ class ImportUser implements withHeadingRow,ToCollection
                     'password' => Hash::make($row['password']),
                     'otp' => mt_rand(100000, 999999),
                     'thumbnail' => '',
+                    'gender' => $row['gender'] ?? '',
                     'nisn' => $row['nis'],
                     'email' => $row['email'],
                     'telp' => $row['telp'],

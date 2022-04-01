@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\Exportable;
 
 
-class RiwayatTagihan implements FromCollection
+class RiwayatTagihan implements FromQuery
 {
     /**
     * @return \Illuminate\Support\Collection

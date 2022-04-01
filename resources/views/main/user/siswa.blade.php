@@ -38,7 +38,10 @@
                 <td>{{$ad->tanggal_lahir}}</td>
                 <td>
                     <span>
-                        <a href="{{route('siswa.delete',$ad->id)}}" class="btn btn-danger btn-sm">Hapus</a>
+                        <a href="javascript;:" class="btn btn-danger btn-sm" data-bs-toggle="modal" onclick="get({{$ad->id}})" data-bs-target="#hapus">
+                            Hapus
+                          </a>
+                        {{-- <a href="{{route('siswa.delete',$ad->id)}}" class="btn btn-danger btn-sm">Hapus</a> --}}
                     </span>
                     <span>
                         <a href="{{route('siswa.edit',$ad->id)}}" class="btn btn-warning btn-sm">Ubah</a>
@@ -49,8 +52,27 @@
         </tbody>
     </table>
 </div>
+<div class="modal fade" id="hapus" tabindex="-1" aria-labelledby="logoutLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Anda Yakin Akan Menhapus Data Ini  ?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-footer" id="submit">
+          {{-- <a href="{{route('logout')}}" class="btn btn-danger">Ya, Saya Yakin</a> --}}
+        </div>
+      </div>
+    </div>
+  </div>
 @section('script')
 <script>
+function get(id) {
+    $('#submit').html('')
+    $('#submit').append('<a href="/user/siswa/hapus/'+id+'" class="btn btn-danger">Ya, Saya Yakin</a>');
+    $('#submit').append('<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tidak</button>');
+}
+
 $(document).ready(function() {
     $('#id_table').DataTable( {
         // Option was here
