@@ -23,6 +23,7 @@ Route::get('/', function () {
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [App\Http\Controllers\AuthController::class, 'index'])->name('/');
 Route::post('/logins', [App\Http\Controllers\AuthController::class, 'logins'])->name('logins');
+Route::post('/registar', [App\Http\Controllers\AuthController::class, 'inikontol'])->name('inikontol');
 Route::get('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('register');
 Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 

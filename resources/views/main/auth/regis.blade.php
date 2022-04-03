@@ -5,7 +5,7 @@
         <div class="card p-3">
             <h4>Daftar Siswa</h4>
             <hr>
-            <form action="{{route('siswa.add.post')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('inikontol')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col my-2 col-md-3">

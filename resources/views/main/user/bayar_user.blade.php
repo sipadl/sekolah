@@ -45,7 +45,7 @@
         <div class="text-center">
             @if($tagihan->status != 1)
             <button class="btn btn-primary" type="submit">Bayar Langsung</button>
-            <a href="#" class="btn btn-danger">Bayar Dengan Cicil</a>
+            {{-- <a href="#" class="btn btn-danger">Bayar Dengan Cicil</a> --}}
             @else
             <button class="btn btn-secondary" disabled>Sudah Dibayar</button>
             @endif

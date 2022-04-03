@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Hash;
+use Validator;
 use Auth;
-
+use Carbon\Carbon;
+use App\Classes\Main;
 
 class AuthController extends Controller
 {
@@ -16,6 +18,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
+        $this->main = new Main();
         // $this->middleware('auth');
     }
 
@@ -67,6 +70,59 @@ class AuthController extends Controller
     //     }
     //     return response()->json(false);
     // }
+
+    public function inikontol(Request $request)
+    {
+        $rules = [
+            'username' => 'required',
+            'kelas' => 'required',
+            'nisn' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'thumbnail' => 'required',
+            'full_name' => 'required',
+            'telp' => 'required',
+            'gender' => 'required'
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if(!$validator){
+            return redirect()->back()->withErrors($validator);
+        }
+        if($request->file('thumbnail')){
+            $file = $request->file('thumbnail');
+            $fileName = $file->getClientOriginalName();
+            $location = 'images/';
+        }
+        $data = [
+            'name' => explode(" ",$request->full_name)[0],
+            'fullname' => $request->full_name,
+            'username' => $request->username,
+            'gender' => $request->gender,
+            'kelas' => $request->kelas,
+            'nisn' => $request->nisn,
+            'email' => $request->email,
+            'password' => $request->password ? hash::make($request->password) : hash::make('123456789'),
+            'telp' => $request->telp,
+            'otp' => mt_rand(100000, 999999),
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'thumbnail' => $request->file('thumbnail') ? $location.$fileName : '',
+            'roles' => 0,
+            'created_at' => Carbon::now()
+        ];
+        try{
+            $createAccount = $this->main->createMandatory($data);
+            $user = DB::table('users')->insert($data);
+            if($request->file('thumbnail')){
+            $file->move($location, $fileName);
+            }
+
+            return redirect()->route('/')->with('msg' , 'Berhasil Menambahkan Data');
+        } catch(\Exception $e)
+        {
+            dd($e);
+        }
+    }
 
     public function register()
     {

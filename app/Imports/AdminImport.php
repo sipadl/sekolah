@@ -18,7 +18,6 @@ class AdminImport implements ToCollection,WithHeadingRow
     */
     public function collection(Collection $rows)
     {
-        $this->main = new Main;
         {
                 if(isset($row['username'])){
                 User::create([

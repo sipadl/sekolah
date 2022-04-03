@@ -116,7 +116,7 @@ class HomeController extends Controller
                 DB::table('tagihans')->where('id', $id)->delete();
             }
         }else{
-            $tagihan = DB::table('tagihans')->where('id', $id)->update($request->except('_token'));
+            $tagihan = DB::table('tagihans')->where('id', $id)->update($request->except('_token','dropdown','cicilan'));
         }
         return redirect()->route('tagihan')->with('msg', 'Data berhasil diubah');
     }
@@ -235,9 +235,7 @@ class HomeController extends Controller
 
     public function siswaDelete($id)
     {
-        DB::table('users')->where('id', $id)->update([
-            'status' => 1
-        ]);
+        DB::table('users')->where('id', $id)->delete();
         return redirect()->back();
     }
 
