@@ -17,7 +17,8 @@ class RiwayatTagihan implements FromQuery, WithHeadings
     public function query()
     {
         return Tagihan::query()
-        ->select('tagihans.id','users.nisn','users.fullname','users.kelas','tipe_tagihan.tipe_tagihan','jumlah','keterangan','tipe_tagihan.created_at')
+        ->select('tagihans.id','users.nisn','users.fullname','users.kelas','tipe_tagihan.tipe_tagihan','jumlah','keterangan','tagihans.tipe','transactions.created_at')
+        ->leftJoin('transactions', 'transactions.tagihan_id', '=', 'tagihans.id')
         ->leftJoin('users', 'users.nisn', '=', 'tagihans.nisn')
         ->leftJoin('tipe_tagihan', 'tipe_tagihan.id', '=', 'tagihans.tipe_tagihan')
         ->where('tagihans.status', 1)
@@ -26,6 +27,6 @@ class RiwayatTagihan implements FromQuery, WithHeadings
 
     public function headings(): array
     {
-        return ["id","nis","fullname","kelas","keterangan","tagihan","jumlah","tipe","tanggal"];
+        return ["id","nis","fullname","kelas","tagihan","jumlah","keterangan","tipe","tanggal"];
     }
 }

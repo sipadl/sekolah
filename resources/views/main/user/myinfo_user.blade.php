@@ -51,13 +51,13 @@
                 <div class="{{ $data->verified == 0 && $data->roles == 0 ? 'col-5' : 'col-8' }}">
                     <input readonly type="email" name="email" value="{{$data->email}}" class="form-control  input-form">
                 </div>
-                @if($data->verified != 1 && $data->roles == 0 )
+                @if($data->verified != 1 && $data->roles == 99 )
                 <div class="col-3 my-1 text-end">
                     <button onclick="sendOTP();" class="btn btn-info btn-sm text-light">Send OTP</button>
                 </div>
                 @endif
             </div>
-            @if($data->verified != 1 && $data->roles == 0 )
+            @if($data->verified != 1 && $data->roles == 99 )
             <div class="form-group row mb-2">
                 <label for="" class="label-form-col col-4 my-2">OTP</label>
                 <div class="col-5">
