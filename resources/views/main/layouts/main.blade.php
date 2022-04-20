@@ -1,3 +1,4 @@
 @include('main.layouts.header')
-@yield('content')
+@include('main.layouts.navbar')
+@include('main.layouts.aside')
 @include('main.layouts.footer')
